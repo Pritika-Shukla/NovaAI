@@ -155,19 +155,53 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="px-6 py-20 sm:px-12 lg:px-24">
-        <div className="mx-auto max-w-4xl">
-          <div className="rounded-3xl border border-slate-200/50 bg-gradient-to-br from-blue-600 to-purple-600 p-12 text-center shadow-2xl dark:border-slate-800/50">
-            <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">
-              Ready to Ace Your Interview?
-            </h2>
-            <p className="mb-8 text-lg text-blue-100">
-              Join thousands of developers practicing with AI interviewers
-            </p>
-            <button className="rounded-2xl bg-white px-8 py-4 text-lg font-semibold text-blue-600 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              Start Your First Interview
+      <section className="bg-gradient-to-br from-slate-100 via-slate-50 to-blue-100 px-6 py-20 sm:px-12 lg:px-24 dark:from-black dark:via-slate-950 dark:to-slate-900">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="mb-4 text-4xl font-bold text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
+            Ready to Level Up?
+          </h2>
+          <p className="mb-12 text-lg text-slate-600 dark:text-slate-300 sm:text-xl">
+            Join thousands of developers who are acing their interviews with InterviewAI
+          </p>
+          
+          {/* Feature List */}
+          <div className="mb-12 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-8">
+            {[
+              "Practice unlimited interviews",
+              "Get detailed feedback",
+              "Track your progress",
+            ].map((feature, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-purple-600">
+                  <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span className="text-slate-900 dark:text-white">{feature}</span>
+              </div>
+            ))}
+          </div>
+          
+          {/* CTA Buttons */}
+          <div className="mb-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <button className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-blue-500/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/60 sm:w-auto">
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Start Free Trial
+                <svg className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 transition-opacity group-hover:opacity-100" />
+            </button>
+            <button className="w-full rounded-2xl border-2 border-slate-300 bg-white/80 px-8 py-4 text-lg font-semibold text-slate-700 backdrop-blur-sm transition-all duration-300 hover:border-slate-400 hover:bg-white dark:border-slate-700 dark:bg-slate-900/50 dark:text-white dark:hover:border-slate-600 dark:hover:bg-slate-800 sm:w-auto">
+              Schedule a Demo
             </button>
           </div>
+          
+          {/* Disclaimer */}
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            No credit card required • 14-day free trial • Cancel anytime
+          </p>
         </div>
       </section>
 
