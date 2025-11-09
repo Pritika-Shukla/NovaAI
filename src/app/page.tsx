@@ -47,7 +47,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-black dark:via-slate-950 dark:to-slate-900">
       {/* Hero Section */}
       <section 
-        className="relative min-h-[90vh] overflow-hidden px-6 py-12 sm:px-12 lg:px-24"
+        className="relative min-h-[85vh] overflow-hidden px-4 py-8 sm:px-6 sm:py-12 md:px-12 md:py-16 lg:px-24 lg:py-20"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -55,18 +55,18 @@ export default function Home() {
         <div className="absolute inset-0">
           {/* Dynamic gradient that follows mouse */}
           <div 
-            className="absolute h-96 w-96 rounded-full bg-gradient-to-r from-blue-400/30 via-purple-400/30 to-pink-400/30 blur-3xl transition-all duration-700 ease-out dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20"
+            className="absolute h-64 w-64 rounded-full bg-gradient-to-r from-blue-400/30 via-purple-400/30 to-pink-400/30 blur-3xl transition-all duration-700 ease-out dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20 sm:h-80 sm:w-80 md:h-96 md:w-96"
             style={{
-              left: `${mousePosition.x / 20}px`,
-              top: `${mousePosition.y / 20}px`,
+              left: `${mousePosition.x / 30}px`,
+              top: `${mousePosition.y / 30}px`,
               transform: isHovered ? 'scale(1.2)' : 'scale(1)',
             }}
           />
           
-          {/* Floating orbs */}
-          <div className="absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full bg-blue-400/20 blur-3xl" style={{ animationDuration: '4s' }} />
-          <div className="absolute top-40 right-20 h-96 w-96 animate-pulse rounded-full bg-purple-400/20 blur-3xl" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-          <div className="absolute bottom-20 left-1/3 h-80 w-80 animate-pulse rounded-full bg-pink-400/15 blur-3xl" style={{ animationDuration: '5s', animationDelay: '2s' }} />
+          {/* Floating orbs - smaller on mobile */}
+          <div className="absolute top-10 left-4 h-48 w-48 animate-pulse rounded-full bg-blue-400/20 blur-3xl sm:top-20 sm:left-10 sm:h-64 sm:w-64 md:h-72 md:w-72" style={{ animationDuration: '4s' }} />
+          <div className="absolute top-20 right-4 h-56 w-56 animate-pulse rounded-full bg-purple-400/20 blur-3xl sm:top-40 sm:right-10 sm:h-80 sm:w-80 md:h-96 md:w-96" style={{ animationDuration: '6s', animationDelay: '1s' }} />
+          <div className="absolute bottom-10 left-1/4 h-52 w-52 animate-pulse rounded-full bg-pink-400/15 blur-3xl sm:bottom-20 sm:left-1/3 sm:h-64 sm:w-64 md:h-80 md:w-80" style={{ animationDuration: '5s', animationDelay: '2s' }} />
           
           {/* Grid pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
@@ -74,37 +74,37 @@ export default function Home() {
 
         {/* Content */}
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+          <div className="grid gap-8 sm:gap-10 md:gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
             {/* Left Column - Text Content */}
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
               {/* Badge with glow effect */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-blue-200/50 bg-gradient-to-r from-blue-50/80 to-purple-50/80 px-4 py-2 text-sm font-medium text-blue-700 backdrop-blur-sm shadow-lg shadow-blue-500/20 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30 dark:border-blue-800/50 dark:from-blue-950/30 dark:to-purple-950/30 dark:text-blue-400">
-                <span className="relative flex h-2 w-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-blue-200/50 bg-gradient-to-r from-blue-50/80 to-purple-50/80 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-blue-700 backdrop-blur-sm shadow-lg shadow-blue-500/20 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/30 dark:border-blue-800/50 dark:from-blue-950/30 dark:to-purple-950/30 dark:text-blue-400">
+                <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+                  <span className="relative inline-flex h-full w-full rounded-full bg-blue-500" />
                 </span>
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap">
                   AI-Powered Interview Practice
                 </span>
               </div>
 
               {/* Animated Headline */}
-              <h1 className="text-5xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white sm:text-6xl lg:text-7xl">
+              <h1 className="text-4xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white sm:text-5xl md:text-6xl lg:text-7xl">
                 <span className="block">Ace Your Next</span>
                 <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-blue-400">
-                  {displayText}
+                  {displayText || "Coding Interview"}
                   <span className="animate-pulse">|</span>
                 </span>
           </h1>
 
               {/* Subheadline */}
-              <p className="text-lg leading-relaxed text-slate-600 dark:text-slate-300 sm:text-xl">
+              <p className="text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg md:text-xl max-w-2xl mx-auto lg:mx-0">
                 Practice with AI interviewers, get instant feedback, and improve your coding skills. 
                 Join a meeting and let AI guide you through real interview scenarios.
               </p>
 
               {/* Interactive Stats */}
-              <div className="flex gap-6">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start">
                 {[
                   { number: "10K+", label: "Interviews" },
                   { number: "95%", label: "Success Rate" },
@@ -112,32 +112,32 @@ export default function Home() {
                 ].map((stat, index) => (
                   <div 
                     key={index}
-                    className="group cursor-pointer rounded-2xl border border-slate-200/50 bg-white/60 p-4 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-blue-300 hover:bg-white/80 hover:shadow-lg hover:shadow-blue-500/20 dark:border-slate-800/50 dark:bg-slate-900/60 dark:hover:border-blue-600"
+                    className="group cursor-pointer rounded-xl sm:rounded-2xl border border-slate-200/50 bg-white/60 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-blue-300 hover:bg-white/80 hover:shadow-lg hover:shadow-blue-500/20 dark:border-slate-800/50 dark:bg-slate-900/60 dark:hover:border-blue-600 flex-1 sm:flex-none"
                   >
-                    <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <div className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                       {stat.number}
                     </div>
-                    <div className="text-sm text-slate-600 dark:text-slate-400">{stat.label}</div>
+                    <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">{stat.label}</div>
                   </div>
                 ))}
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <button className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-blue-500/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/60 sm:w-auto">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+                <button className="group relative w-full sm:w-auto overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white shadow-lg shadow-blue-500/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/60">
                   <span className="relative z-10 flex items-center justify-center gap-2">
                     Start Interview
-                    <svg className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 transition-opacity group-hover:opacity-100" />
                   <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-700 to-purple-700 opacity-0 blur-xl transition-opacity group-hover:opacity-50" />
                 </button>
-                <button className="group w-full rounded-2xl border-2 border-slate-300 bg-white/80 px-8 py-4 text-lg font-semibold text-slate-700 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-blue-400 hover:bg-white hover:shadow-lg dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-blue-600 dark:hover:bg-slate-900 sm:w-auto">
+                <button className="group w-full sm:w-auto rounded-xl sm:rounded-2xl border-2 border-slate-300 bg-white/80 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-slate-700 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-blue-400 hover:bg-white hover:shadow-lg dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-blue-600 dark:hover:bg-slate-900">
                   <span className="flex items-center justify-center gap-2">
                     Watch Demo
-                    <svg className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -147,25 +147,25 @@ export default function Home() {
             </div>
 
             {/* Right Column - Interactive Visual Elements */}
-            <div className="relative hidden lg:block">
+            <div className="relative mt-8 lg:mt-0">
               {/* Floating Code Card */}
-              <div className="group relative">
-                <div className="absolute -right-4 -top-4 h-full w-full rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 opacity-20 blur-xl transition-all duration-500 group-hover:opacity-30 group-hover:blur-2xl" />
-                <div className="relative rounded-2xl border border-slate-200/50 bg-white/80 p-6 backdrop-blur-sm shadow-2xl transition-all duration-500 hover:scale-105 dark:border-slate-800/50 dark:bg-slate-900/80">
-                  <div className="mb-4 flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-red-500" />
-                    <div className="h-3 w-3 rounded-full bg-yellow-500" />
-                    <div className="h-3 w-3 rounded-full bg-green-500" />
-                    <span className="ml-4 text-sm font-medium text-slate-600 dark:text-slate-400">interview.ts</span>
+              <div className="group relative mx-auto max-w-md lg:max-w-none">
+                <div className="absolute -right-2 -top-2 sm:-right-4 sm:-top-4 h-full w-full rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 opacity-20 blur-xl transition-all duration-500 group-hover:opacity-30 group-hover:blur-2xl" />
+                <div className="relative rounded-xl sm:rounded-2xl border border-slate-200/50 bg-white/80 p-4 sm:p-6 backdrop-blur-sm shadow-2xl transition-all duration-500 hover:scale-105 dark:border-slate-800/50 dark:bg-slate-900/80">
+                  <div className="mb-3 sm:mb-4 flex items-center gap-2">
+                    <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-red-500" />
+                    <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-yellow-500" />
+                    <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-green-500" />
+                    <span className="ml-2 sm:ml-4 text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">interview.ts</span>
                   </div>
-                  <div className="space-y-2 font-mono text-sm">
+                  <div className="space-y-1.5 sm:space-y-2 font-mono text-xs sm:text-sm">
                     <div className="flex items-center gap-2">
                       <span className="text-purple-600 dark:text-purple-400">function</span>
                       <span className="text-blue-600 dark:text-blue-400">solve</span>
                       <span className="text-slate-700 dark:text-slate-300">()</span>
                       <span className="text-slate-700 dark:text-slate-300">{`{`}</span>
                     </div>
-                    <div className="ml-4 text-green-600 dark:text-green-400">
+                    <div className="ml-3 sm:ml-4 text-green-600 dark:text-green-400">
                       return <span className="text-pink-600 dark:text-pink-400">&quot;Perfect!&quot;</span>;
                     </div>
                     <div className="text-slate-700 dark:text-slate-300">{`}`}</div>
@@ -173,28 +173,28 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Floating Interview Cards */}
-              <div className="absolute -left-8 top-1/2 -translate-y-1/2">
-                <div className="rounded-xl border border-slate-200/50 bg-white/90 p-4 shadow-xl backdrop-blur-sm transition-all duration-700 hover:scale-110 hover:rotate-3 dark:border-slate-800/50 dark:bg-slate-900/90">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500" />
+              {/* Floating Interview Cards - only show on larger screens */}
+              <div className="hidden md:absolute md:left-0 lg:-left-8 md:top-1/2 md:-translate-y-1/2">
+                <div className="rounded-lg sm:rounded-xl border border-slate-200/50 bg-white/90 p-3 sm:p-4 shadow-xl backdrop-blur-sm transition-all duration-700 hover:scale-110 hover:rotate-3 dark:border-slate-800/50 dark:bg-slate-900/90">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500" />
                     <div>
-                      <div className="text-sm font-semibold text-slate-900 dark:text-white">AI Interviewer</div>
-                      <div className="text-xs text-slate-600 dark:text-slate-400">Ready to start</div>
+                      <div className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">AI Interviewer</div>
+                      <div className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-400">Ready to start</div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute -bottom-8 -right-8">
-                <div className="rounded-xl border border-slate-200/50 bg-white/90 p-4 shadow-xl backdrop-blur-sm transition-all duration-700 hover:scale-110 hover:-rotate-3 dark:border-slate-800/50 dark:bg-slate-900/90">
+              <div className="hidden md:absolute md:-bottom-4 md:right-0 lg:-bottom-8 lg:-right-8">
+                <div className="rounded-lg sm:rounded-xl border border-slate-200/50 bg-white/90 p-3 sm:p-4 shadow-xl backdrop-blur-sm transition-all duration-700 hover:scale-110 hover:-rotate-3 dark:border-slate-800/50 dark:bg-slate-900/90">
                   <div className="flex items-center gap-2">
-                    <svg className="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
-                      <div className="text-sm font-semibold text-slate-900 dark:text-white">Feedback Ready</div>
-                      <div className="text-xs text-slate-600 dark:text-slate-400">Instant results</div>
+                      <div className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white">Feedback Ready</div>
+                      <div className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-400">Instant results</div>
                     </div>
                   </div>
                 </div>
