@@ -1,6 +1,7 @@
 import { login } from '@/app/login/actions'
 import Link from 'next/link'
-
+import OneTapComponent from '@/app/components/OneTapComponent'
+import GoogleLoginButton from '@/app/components/GoogleLoginButton'
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black px-4">
@@ -13,6 +14,20 @@ export default function LoginPage() {
             <p className="text-black dark:text-white opacity-70">
               Sign in to your account to continue
             </p>
+          </div>
+          
+          <GoogleLoginButton />
+          <OneTapComponent />
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-black dark:border-white opacity-20"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white dark:bg-black text-black dark:text-white opacity-70">
+                Or continue with email
+              </span>
+            </div>
           </div>
 
           <form className="space-y-5">
