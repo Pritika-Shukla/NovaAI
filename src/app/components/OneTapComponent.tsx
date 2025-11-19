@@ -43,7 +43,7 @@ const OneTapComponent = () => {
 
     /* global google */
     google.accounts.id.initialize({
-      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '',
       callback: async (response: CredentialResponse) => {
         try {
           toast.loading('Signing in with Google...', { id: 'one-tap-login' })
