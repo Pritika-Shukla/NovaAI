@@ -4,6 +4,7 @@ import Script from 'next/script'
 import { createClient } from '@/app/utils/supabase/supabaseClient'
 import type { accounts, CredentialResponse } from 'google-one-tap'
 import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 declare const google: { accounts: accounts }
 
@@ -32,6 +33,8 @@ const OneTapComponent = () => {
     const { data, error } = await supabase.auth.getSession()
     if (error) {
       console.error('Error getting session', error)
+      toast.error('Failed to check session. Please refresh the page.')
+      return
     }
     if (data.session) {
       router.push('/')
@@ -43,6 +46,8 @@ const OneTapComponent = () => {
       client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
       callback: async (response: CredentialResponse) => {
         try {
+          toast.loading('Signing in with Google...', { id: 'one-tap-login' })
+          
           // send id token returned in response.credential to supabase
           const { data, error } = await supabase.auth.signInWithIdToken({
             provider: 'google',
@@ -51,12 +56,16 @@ const OneTapComponent = () => {
           })
 
           if (error) throw error
+          
+          toast.success('Successfully signed in with Google!', { id: 'one-tap-login' })
           console.log('Session data: ', data)
-          console.log('Successfully logged in with Google One Tap')
 
           // redirect to protected page
           router.push('/')
-        } catch (error) {
+          router.refresh()
+        } catch (error: any) {
+          const errorMessage = error?.message || 'Failed to sign in with Google One Tap'
+          toast.error(errorMessage, { id: 'one-tap-login' })
           console.error('Error logging in with Google One Tap', error)
         }
       },

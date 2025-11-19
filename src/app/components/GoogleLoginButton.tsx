@@ -1,19 +1,28 @@
 'use client'
 
 import { createClient } from '@/app/utils/supabase/supabaseClient'
+import toast from 'react-hot-toast'
 
 export default function GoogleLoginButton() {
   const supabase = createClient()
 
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      })
 
-    if (error) {
+      if (error) {
+        toast.error('Failed to initiate Google login. Please try again.')
+        console.error('Error logging in with Google:', error)
+      } else {
+        toast.loading('Redirecting to Google...', { id: 'google-login' })
+      }
+    } catch (error) {
+      toast.error('An unexpected error occurred. Please try again.')
       console.error('Error logging in with Google:', error)
     }
   }

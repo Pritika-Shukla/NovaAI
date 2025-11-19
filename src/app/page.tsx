@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import AuthToastHandler from "./components/AuthToastHandler";
 
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -44,7 +45,9 @@ export default function Home() {
   }, [displayText, isDeleting, currentTextIndex]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-black dark:via-slate-950 dark:to-slate-900">
+    <>
+      <AuthToastHandler />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-black dark:via-slate-950 dark:to-slate-900">
       {/* Hero Section */}
       <section 
         className="relative min-h-[85vh] overflow-hidden px-4 py-8 sm:px-6 sm:py-12 md:px-12 md:py-16 lg:px-24 lg:py-20"
@@ -367,5 +370,6 @@ export default function Home() {
         </div>
       </footer>
     </div>
+    </>
   );
 }

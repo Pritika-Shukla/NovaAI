@@ -1,11 +1,42 @@
+'use client'
+
 import { login } from '@/app/login/actions'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
 import OneTapComponent from '@/app/components/OneTapComponent'
 import GoogleLoginButton from '@/app/components/GoogleLoginButton'
+import AuthToastHandler from '@/app/components/AuthToastHandler'
+
 export default function LoginPage() {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleSubmit = async (formData: FormData) => {
+    setIsLoading(true)
+    try {
+      const result = await login(formData)
+      
+      if (result.success) {
+        toast.success(result.message || 'Successfully signed in!')
+        router.push('/')
+        router.refresh()
+      } else {
+        toast.error(result.error || 'Failed to sign in. Please try again.')
+      }
+    } catch (error) {
+      toast.error('An unexpected error occurred. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black px-4">
-      <div className="w-full max-w-md">
+    <>
+      <AuthToastHandler />
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black px-4">
+        <div className="w-full max-w-md">
         <div className="bg-white dark:bg-black border border-black dark:border-white rounded-lg shadow-lg p-8 space-y-6">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-black dark:text-white mb-2">
@@ -30,7 +61,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <form className="space-y-5">
+          <form action={handleSubmit} className="space-y-5">
             <div className="space-y-2">
               <label 
                 htmlFor="email" 
@@ -43,7 +74,8 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 required
-                className="w-full px-4 py-2.5 border border-black dark:border-white rounded-lg focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-all bg-white dark:bg-black text-black dark:text-white placeholder-black dark:placeholder-white placeholder-opacity-50"
+                disabled={isLoading}
+                className="w-full px-4 py-2.5 border border-black dark:border-white rounded-lg focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-all bg-white dark:bg-black text-black dark:text-white placeholder-black dark:placeholder-white placeholder-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="name@example.com"
               />
             </div>
@@ -60,17 +92,19 @@ export default function LoginPage() {
                 name="password"
                 type="password"
                 required
-                className="w-full px-4 py-2.5 border border-black dark:border-white rounded-lg focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-all bg-white dark:bg-black text-black dark:text-white placeholder-black dark:placeholder-white placeholder-opacity-50"
+                disabled={isLoading}
+                className="w-full px-4 py-2.5 border border-black dark:border-white rounded-lg focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-all bg-white dark:bg-black text-black dark:text-white placeholder-black dark:placeholder-white placeholder-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter your password"
               />
             </div>
 
             <div className="space-y-3 pt-2">
               <button
-                formAction={login}
-                className="w-full bg-black dark:bg-white hover:opacity-80 text-white dark:text-black font-medium py-2.5 px-4 rounded-lg transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2"
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-black dark:bg-white hover:opacity-80 text-white dark:text-black font-medium py-2.5 px-4 rounded-lg transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Log in
+                {isLoading ? 'Signing in...' : 'Log in'}
               </button>
               <div className="text-center text-sm">
                 <span className="text-black dark:text-white opacity-70">
@@ -88,5 +122,6 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

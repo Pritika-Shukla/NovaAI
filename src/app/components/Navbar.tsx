@@ -1,6 +1,6 @@
 import { createClient } from '@/app/utils/supabase/server'
-import { logout } from '@/app/login/actions'
 import Link from 'next/link'
+import LogoutButton from './LogoutButton'
 
 export default async function Navbar() {
   const supabase = await createClient()
@@ -32,14 +32,7 @@ export default async function Navbar() {
                     </span>
                   </div>
                 </div>
-                <form action={logout}>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 text-sm font-medium text-white dark:text-black bg-black dark:bg-white hover:opacity-80 rounded-lg transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2"
-                  >
-                    Logout
-                  </button>
-                </form>
+                <LogoutButton />
               </>
             ) : (
               <Link
