@@ -63,8 +63,8 @@ const OneTapComponent = () => {
           // redirect to protected page
           router.push('/')
           router.refresh()
-        } catch (error: any) {
-          const errorMessage = error?.message || 'Failed to sign in with Google One Tap'
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Failed to sign in with Google One Tap'
           toast.error(errorMessage, { id: 'one-tap-login' })
           console.error('Error logging in with Google One Tap', error)
         }
@@ -76,7 +76,7 @@ const OneTapComponent = () => {
     google.accounts.id.prompt() // Display the One Tap UI
   }
 
-  return <Script onReady={initializeGoogleOneTap} src="https://accounts.google.com/gsi/client" />
+  return <Script onReady={() => { initializeGoogleOneTap() }} src="https://accounts.google.com/gsi/client" />
 }
 
 export default OneTapComponent
