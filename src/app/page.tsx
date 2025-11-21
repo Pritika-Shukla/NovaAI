@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import AuthToastHandler from "./components/AuthToastHandler";
+import ResumeAnalyzer from "./components/ResumeAnalyzer";
 
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -308,6 +309,21 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Resume Analyzer Section */}
+      <section className="px-6 py-20 sm:px-12 lg:px-24 bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-black dark:via-slate-950 dark:to-slate-900">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
+              Analyze Your Resume
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+              Upload your resume PDF and get AI-powered insights about your skills, experience, and areas for improvement
+            </p>
+          </div>
+          <ResumeAnalyzer />
         </div>
       </section>
 

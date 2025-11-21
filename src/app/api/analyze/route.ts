@@ -30,9 +30,13 @@ ${resumeText}
             response_format: { type: "json_object" }
         });
 
-        const data = JSON.parse(response.choices[0].message.content || "{}");
+        const rawContent = response.choices[0].message.content || "{}";
+        const data = JSON.parse(rawContent);
 
-        return NextResponse.json(data);
+        return NextResponse.json({
+            ...data,
+            rawResponse: rawContent
+        });
     } catch (error) {
         console.error("Error:", error);
         return NextResponse.json(
