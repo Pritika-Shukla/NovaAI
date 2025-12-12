@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { QuickStats} from "@/app/components/quick-stats"
+import { QuickStats } from "@/app/components/quick-stats"
 import { InterviewHistory } from "@/app/components/interview-history"
 import { UpcomingInterviews } from "@/app/components/upcoming-interviews"
 import { ResumeUploadModal } from "@/app/components/resume-upload-modal"
