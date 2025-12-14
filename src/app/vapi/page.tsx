@@ -1,5 +1,5 @@
 "use client";
-import VapiWidget  from "../components/VapiWidget";
+import VapiWidget  from "@/components/VapiWidget";
 
 export default function VapiPage() {
   return (

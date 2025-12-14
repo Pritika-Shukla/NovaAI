@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import AuthToastHandler from "./components/AuthToastHandler";
-import ResumeAnalyzer from "./components/ResumeAnalyzer";
+import AuthToastHandler from "@/components/AuthToastHandler";
 
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -323,7 +322,7 @@ export default function Home() {
               Upload your resume PDF and get AI-powered insights about your skills, experience, and areas for improvement
             </p>
           </div>
-          <ResumeAnalyzer />
+          
         </div>
       </section>
 

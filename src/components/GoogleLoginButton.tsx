@@ -1,11 +1,9 @@
 'use client'
 
-import { createClient } from '@/app/utils/supabase/supabaseClient'
+import { supabase } from "@/lib/supabase/client"
 import toast from 'react-hot-toast'
 
 export default function GoogleLoginButton() {
-  const supabase = createClient()
-
   const handleGoogleLogin = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({

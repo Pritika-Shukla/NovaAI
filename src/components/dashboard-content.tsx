@@ -2,12 +2,12 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { QuickStats } from "@/app/components/quick-stats"
-import { InterviewHistory } from "@/app/components/interview-history"
-import { UpcomingInterviews } from "@/app/components/upcoming-interviews"
-import { ResumeUploadModal } from "@/app/components/resume-upload-modal"
-import { InterviewRoom } from "@/app/components/interview-room"
-import { ReportsList} from "@/app/components/reports-list"
+import { QuickStats } from "@/components/quick-stats"
+import { InterviewHistory } from "@/components/interview-history"
+import { UpcomingInterviews } from "@/components/upcoming-interviews"
+import { ResumeUploadModal } from "@/components/resume-upload-modal"
+import { InterviewRoom } from "@/components/interview-room"
+import { ReportsList} from "@/components/reports-list"
 
 interface DashboardContentProps {
   activeTab: string
@@ -128,7 +128,9 @@ export function DashboardContent({ activeTab }: DashboardContentProps) {
   return (
     <div className="flex-1 overflow-auto">
       <div className="p-6">{renderContent()}</div>
-      <ResumeUploadModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} />
+      {activeTab !== "upload" && (
+        <ResumeUploadModal isOpen={showUploadModal} onClose={() => setShowUploadModal(false)} />
+      )}
     </div>
   )
 }

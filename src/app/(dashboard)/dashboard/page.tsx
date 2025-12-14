@@ -1,8 +1,8 @@
 "use client"
 
-import { Header } from "@/app/components/header"
-import { Sidebar } from "@/app/components/Sidebar"
-import { DashboardContent } from "@/app/components/dashboard-content"
+import { Header } from "@/components/header"
+import { Sidebar } from "@/components/Sidebar"
+import { DashboardContent } from "@/components/dashboard-content"
 import { useState } from "react"
 
 export default function Page() {
