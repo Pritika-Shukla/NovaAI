@@ -10,6 +10,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-progress": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
@@ -22,6 +23,7 @@
     "clsx": "^2.1.1",
     "google-one-tap": "^1.0.6",
     "lucide-react": "^0.560.0",
+    "motion": "^12.23.26",
     "next": "16.0.1",
     "openai": "^6.9.1",
     "pdf-parse": "^2.4.5",

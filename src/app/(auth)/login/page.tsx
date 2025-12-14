@@ -1,13 +1,13 @@
 'use client'
 
-import { login } from '@/app/login/actions'
+import { login } from '@/app/(auth)/login/actions'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import OneTapComponent from '@/app/components/OneTapComponent'
-import GoogleLoginButton from '@/app/components/GoogleLoginButton'
-import AuthToastHandler from '@/app/components/AuthToastHandler'
+import OneTapComponent from '@/components/OneTapComponent'
+import GoogleLoginButton from '@/components/GoogleLoginButton'
+import AuthToastHandler from '@/components/AuthToastHandler'
 
 export default function LoginPage() {
   const router = useRouter()
