@@ -1,21 +1,23 @@
 "use client"
 import { LayoutDashboard, Upload, Video, FileText, History, Settings, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 interface SidebarProps {
   open: boolean
   setOpen: (open: boolean) => void
-  activeTab: string
-  setActiveTab: (tab: string) => void
 }
 
-export function Sidebar({ open, setOpen, activeTab, setActiveTab }: SidebarProps) {
+export function Sidebar({ open, setOpen }: SidebarProps) {
+  const pathname = usePathname()
+  
   const menuItems = [
-    { id: "dashboard", label: "My Dashboard", icon: LayoutDashboard },
-    { id: "upload", label: "My Resume", icon: Upload },
-    { id: "interview", label: "Start Interview", icon: Video },
-    { id: "reports", label: "My Reports", icon: FileText },
-    { id: "history", label: "Interview History", icon: History },
+    { id: "dashboard", label: "My Dashboard", icon: LayoutDashboard, href: "/dashboard" },
+    { id: "upload", label: "My Resume", icon: Upload, href: "/dashboard/upload" },
+    { id: "interview", label: "Start Interview", icon: Video, href: "/dashboard/interview" },
+    { id: "reports", label: "My Reports", icon: FileText, href: "/dashboard/reports" },
+    { id: "history", label: "Interview History", icon: History, href: "/dashboard/history" },
   ]
 
   return (
@@ -36,20 +38,23 @@ export function Sidebar({ open, setOpen, activeTab, setActiveTab }: SidebarProps
 
       {/* Menu Items */}
       <nav className="flex-1 py-6 px-4 space-y-2">
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setActiveTab(item.id)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-              activeTab === item.id
-                ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                : "text-sidebar-foreground hover:bg-sidebar-accent"
-            }`}
-          >
-            <item.icon className="w-5 h-5 flex-shrink-0" />
-            <span className={`${open ? "block" : "hidden"}`}>{item.label}</span>
-          </button>
-        ))}
+        {menuItems.map((item) => {
+          const isActive = pathname === item.href
+          return (
+            <Link
+              key={item.id}
+              href={item.href}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                isActive
+                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent"
+              }`}
+            >
+              <item.icon className="w-5 h-5 shrink-0" />
+              <span className={`${open ? "block" : "hidden"}`}>{item.label}</span>
+            </Link>
+          )
+        })}
       </nav>
 
       {/* Bottom Actions */}
