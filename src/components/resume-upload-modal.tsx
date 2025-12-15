@@ -1,11 +1,11 @@
 "use client"
 
 import type React from "react"
-import { supabase } from "@/lib/supabase/client"
 import { useState, useRef } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Upload, File, X } from "lucide-react"
+import { Upload, File, X, Loader2 } from "lucide-react"
+import toast from "react-hot-toast"
 
 interface ResumeUploadModalProps {
   isOpen: boolean
@@ -15,6 +15,7 @@ interface ResumeUploadModalProps {
 export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
   const [file, setFile] = useState<File | null>(null)
   const [dragActive, setDragActive] = useState(false)
+  const [uploading, setUploading] = useState(false)
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault()
@@ -37,11 +38,41 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
     }
   }
 
-  const handleUpload =async ()=>{
-  if(!file) return
-  console.log("uploading file", file)
-}
+  const handleUpload = async () => {
+    if (!file) {
+      toast.error("Please select a file to upload")
+      return
+    }
 
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to upload resume")
+      }
+
+      toast.success("Resume uploaded successfully!")
+      setFile(null)
+      onClose()
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to upload resume"
+      toast.error(errorMessage)
+      console.error("Upload error:", error)
+    } finally {
+      setUploading(false)
+    }
+  }
+
+const inputRef = useRef<HTMLInputElement>(null)
   if (!isOpen) {
     return null
   }
@@ -85,10 +116,11 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
                 accept=".pdf,.doc,.docx"
                 onChange={handleFileChange}
                 className="hidden"
+                ref={inputRef}
               />
               <Button
                 variant="outline"
-    
+                onClick={() => inputRef.current?.click()}
                 className="mt-3"
               >
                 Select File
@@ -104,8 +136,16 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
           <Button
             className="flex-1"
             onClick={handleUpload}
+            disabled={!file || uploading}
           >
-            Upload Resume
+            {uploading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              "Upload Resume"
+            )}
           </Button>
         </div>
       </CardContent>
