@@ -10,9 +10,10 @@ import toast from "react-hot-toast"
 interface ResumeUploadModalProps {
   isOpen: boolean
   onClose: () => void
+  onUploadSuccess?: () => void
 }
 
-export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
+export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUploadModalProps) {
   const [file, setFile] = useState<File | null>(null)
   const [dragActive, setDragActive] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -52,6 +53,7 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
+        credentials: "include",
       })
 
       const data = await response.json()
@@ -63,6 +65,7 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
       toast.success("Resume uploaded successfully!")
       setFile(null)
       onClose()
+      onUploadSuccess?.()
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Failed to upload resume"
       toast.error(errorMessage)
@@ -72,13 +75,15 @@ export function ResumeUploadModal({ isOpen, onClose }: ResumeUploadModalProps) {
     }
   }
 
-const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  
   if (!isOpen) {
     return null
   }
 
   return (
-    <Card className="max-w-md mx-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
+      <Card className="max-w-md w-full" onClick={(e) => e.stopPropagation()}>
       <CardHeader>
         <CardTitle>Update Your Resume</CardTitle>
         <CardDescription>
@@ -150,5 +155,6 @@ const inputRef = useRef<HTMLInputElement>(null)
         </div>
       </CardContent>
     </Card>
+    </div>
   )
 }
