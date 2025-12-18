@@ -118,5 +118,16 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Slight black & white textured look */
+    background:
+      radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.03), transparent 60%),
+      radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.02), transparent 60%),
+      #020617;
+    color: #e5e7eb;
   }
+}
+
+/* Force app-wide dark theme */
+:root {
+  color-scheme: dark;
 }

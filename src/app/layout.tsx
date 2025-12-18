@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -34,37 +34,37 @@ export default function RootLayout({
           toastOptions={{
             duration: 4000,
             style: {
-              background: 'rgb(255, 255, 255)',
-              color: 'rgb(0, 0, 0)',
-              border: '1px solid rgb(0, 0, 0)',
+              background: "#020617",
+              color: "#e5e7eb",
+              border: "1px solid #1f2937",
             },
             success: {
               iconTheme: {
-                primary: '#10b981',
-                secondary: '#fff',
+                primary: "#22c55e",
+                secondary: "#020617",
               },
               style: {
-                background: 'rgb(255, 255, 255)',
-                color: 'rgb(0, 0, 0)',
-                border: '1px solid rgb(0, 0, 0)',
+                background: "#022c22",
+                color: "#e5e7eb",
+                border: "1px solid #16a34a",
               },
             },
             error: {
               iconTheme: {
-                primary: '#ef4444',
-                secondary: '#fff',
+                primary: "#f97316",
+                secondary: "#020617",
               },
               style: {
-                background: 'rgb(255, 255, 255)',
-                color: 'rgb(0, 0, 0)',
-                border: '1px solid rgb(0, 0, 0)',
+                background: "#450a0a",
+                color: "#fee2e2",
+                border: "1px solid #b91c1c",
               },
             },
             loading: {
               style: {
-                background: 'rgb(255, 255, 255)',
-                color: 'rgb(0, 0, 0)',
-                border: '1px solid rgb(0, 0, 0)',
+                background: "#020617",
+                color: "#e5e7eb",
+                border: "1px solid #1f2937",
               },
             },
           }}
