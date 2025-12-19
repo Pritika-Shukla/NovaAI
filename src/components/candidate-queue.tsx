@@ -43,10 +43,10 @@ export function CandidateQueue() {
   ]
 
   const statusColors = {
-    Ready: "bg-green-500/10 text-green-700",
-    Scheduled: "bg-blue-500/10 text-blue-700",
-    "In Progress": "bg-amber-500/10 text-amber-700",
-    Completed: "bg-gray-500/10 text-gray-700",
+    Ready: "bg-primary/10 text-primary",
+    Scheduled: "bg-primary/10 text-primary",
+    "In Progress": "bg-primary/10 text-primary",
+    Completed: "bg-primary/10 text-primary",
   }
 
   return (

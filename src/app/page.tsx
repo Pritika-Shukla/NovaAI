@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Sparkles, Brain, Zap, CheckCircle2 } from "lucide-react"
 import { useEffect, useState } from "react"
 
-export default function page() {
+export default function Page() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function page() {
       <div
         className="absolute -right-20 top-0 h-[300px] w-[300px] rounded-full opacity-30 blur-3xl sm:right-0 sm:h-[500px] sm:w-[500px] md:h-[600px] md:w-[600px]"
         style={{
-          background: "radial-gradient(circle, oklch(0.82 0.18 142) 0%, transparent 70%)",
+          background: "radial-gradient(circle, oklch(0.45 0.15 250) 0%, transparent 70%)",
         }}
       />
 
@@ -66,7 +66,7 @@ export default function page() {
                 </span>
                 <br />
                 Start{" "}
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                   dominating
                 </span>{" "}
                 interviews.
@@ -115,7 +115,7 @@ export default function page() {
                 <div className="text-xs text-muted-foreground sm:text-sm">Success rate</div>
               </div>
               <div className="space-y-1">
-                <div className="text-2xl font-bold text-accent sm:text-3xl">50K+</div>
+                <div className="text-2xl font-bold text-primary sm:text-3xl">50K+</div>
                 <div className="text-xs text-muted-foreground sm:text-sm">Interviews</div>
               </div>
               <div className="space-y-1">
@@ -148,11 +148,11 @@ export default function page() {
             </div>
 
             {/* Card 2 */}
-            <div className="group relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-all hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10 sm:rounded-2xl sm:p-6">
-              <div className="absolute right-0 top-0 h-24 w-24 bg-accent/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="group relative overflow-hidden rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-6">
+              <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
               <div className="relative flex items-start gap-3 sm:gap-4">
-                <div className="rounded-lg bg-accent/10 p-2 sm:rounded-xl sm:p-3">
-                  <Zap className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
+                <div className="rounded-lg bg-primary/10 p-2 sm:rounded-xl sm:p-3">
+                  <Zap className="h-5 w-5 text-primary sm:h-6 sm:w-6" />
                 </div>
                 <div className="flex-1 space-y-1 sm:space-y-2">
                   <h3 className="font-semibold text-base text-card-foreground sm:text-lg">Adaptive Learning Path</h3>

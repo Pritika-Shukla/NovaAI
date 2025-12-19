@@ -40,18 +40,18 @@ export default function RootLayout({
             },
             success: {
               iconTheme: {
-                primary: "#22c55e",
+                primary: "#3b82f6",
                 secondary: "#020617",
               },
               style: {
-                background: "#022c22",
+                background: "#1e3a5f",
                 color: "#e5e7eb",
-                border: "1px solid #16a34a",
+                border: "1px solid #2563eb",
               },
             },
             error: {
               iconTheme: {
-                primary: "#f97316",
+                primary: "#3b82f6",
                 secondary: "#020617",
               },
               style: {

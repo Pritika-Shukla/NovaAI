@@ -66,7 +66,7 @@ export function InterviewHistory() {
                   <td className="py-3 px-4 text-sm text-muted-foreground">{interview.position}</td>
                   <td className="py-3 px-4 text-sm text-muted-foreground">{interview.interviewDate}</td>
                   <td className="py-3 px-4">
-                    <Badge className="bg-green-500/10 text-green-700">{interview.score}</Badge>
+                    <Badge className="bg-primary/10 text-primary">{interview.score}</Badge>
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2">

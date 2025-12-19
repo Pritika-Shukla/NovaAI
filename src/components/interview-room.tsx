@@ -22,7 +22,7 @@ export function InterviewRoom() {
         <CardContent className="space-y-6">
           <div className="bg-muted p-6 rounded-lg space-y-4">
             <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+              <AlertCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-semibold text-sm text-foreground">Before You Start</h3>
                 <ul className="text-sm text-muted-foreground mt-2 space-y-1 list-disc list-inside">
@@ -135,9 +135,9 @@ export function InterviewRoom() {
                   <p className="font-semibold text-foreground">Active Question</p>
                   <p className="text-muted-foreground mt-1">Tell us about your most complex project...</p>
                 </div>
-                <div className="bg-blue-500/10 border border-blue-500/30 p-3 rounded-lg">
-                  <p className="text-blue-700 text-xs font-semibold">SUGGESTION</p>
-                  <p className="text-blue-700 text-sm mt-1">
+                <div className="bg-primary/10 border border-primary/30 p-3 rounded-lg">
+                  <p className="text-primary text-xs font-semibold">SUGGESTION</p>
+                  <p className="text-primary text-sm mt-1">
                     Take a moment to structure your answer: situation, task, action, result
                   </p>
                 </div>

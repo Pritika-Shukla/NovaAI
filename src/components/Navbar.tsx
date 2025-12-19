@@ -14,7 +14,7 @@ export default async function Navbar() {
           <div className="flex items-center">
             <Link 
               href="/" 
-              className="text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-blue-400"
+              className="text-xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-blue-500 dark:to-blue-400"
             >
               NovaAI
             </Link>
@@ -25,8 +25,8 @@ export default async function Navbar() {
             {user ? (
               <>
                 <div className="hidden sm:flex items-center gap-3">
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-50/80 to-purple-50/80 dark:from-blue-950/30 dark:to-purple-950/30 border border-blue-200/50 dark:border-blue-800/50">
-                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-50/80 to-blue-50/80 dark:from-blue-950/30 dark:to-blue-950/30 border border-blue-200/50 dark:border-blue-800/50">
+                    <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
                     <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       {user.email}
                     </span>
