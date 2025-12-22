@@ -3,16 +3,44 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Sparkles, Brain, Zap, CheckCircle2, Video, FileText, BarChart3, Users, Star, PlayCircle, Upload, MessageSquare } from "lucide-react"
 import { useEffect, useState } from "react"
+import { LandingNavbar } from "@/components/LandingNavbar"
+import { useRouter } from "next/navigation"
+import { supabase } from "@/lib/supabase/client"
+import type { User } from "@supabase/supabase-js"
 
 export default function Page() {
   const [mounted, setMounted] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
     setMounted(true)
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null)
+    })
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
+
+  const handleGetStarted = () => {
+    if (user) {
+      router.push("/dashboard")
+    } else {
+      router.push("/signup")
+    }
+  }
 
   return (
     <>
+    <LandingNavbar />
     <section className="relative min-h-[90vh] overflow-hidden bg-background sm:min-h-screen">
       {/* Animated background grid */}
       <div className="absolute inset-0 opacity-20">
@@ -91,6 +119,7 @@ export default function Page() {
             >
               <Button
                 size="lg"
+                onClick={handleGetStarted}
                 className="group h-12 px-6 text-base bg-primary text-primary-foreground hover:bg-primary/90 sm:h-14 sm:px-8 sm:text-lg"
               >
                 Start practicing free
@@ -99,6 +128,9 @@ export default function Page() {
               <Button
                 size="lg"
                 variant="outline"
+                onClick={() => {
+                  document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
+                }}
                 className="h-12 px-6 text-base border-primary/30 bg-primary/5 hover:bg-primary/10 sm:h-14 sm:px-8 sm:text-lg"
               >
                 Watch demo
@@ -272,7 +304,7 @@ export default function Page() {
     </section>
 
     {/* Expanded Features Section */}
-    <section className="relative py-16 sm:py-20 md:py-24 bg-background border-t border-border">
+    <section id="features" className="relative py-16 sm:py-20 md:py-24 bg-background border-t border-border">
       <div className="container relative mx-auto px-4">
         <div className="text-center mb-12 sm:mb-16">
           <h2
@@ -525,6 +557,7 @@ export default function Page() {
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-4">
               <Button
                 size="lg"
+                onClick={handleGetStarted}
                 className="group h-12 px-6 text-base bg-primary text-primary-foreground hover:bg-primary/90 sm:h-14 sm:px-8 sm:text-lg"
               >
                 Start practicing free
@@ -533,6 +566,9 @@ export default function Page() {
               <Button
                 size="lg"
                 variant="outline"
+                onClick={() => {
+                  document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
+                }}
                 className="h-12 px-6 text-base border-primary/30 bg-primary/5 hover:bg-primary/10 sm:h-14 sm:px-8 sm:text-lg"
               >
                 Watch demo
