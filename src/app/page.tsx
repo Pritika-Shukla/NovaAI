@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles, Brain, Zap, CheckCircle2 } from "lucide-react"
+import { ArrowRight, Sparkles, Brain, Zap, CheckCircle2, Video, FileText, BarChart3, Users, Star, PlayCircle, Upload, MessageSquare } from "lucide-react"
 import { useEffect, useState } from "react"
 
 export default function Page() {
@@ -12,6 +12,7 @@ export default function Page() {
   }, [])
 
   return (
+    <>
     <section className="relative min-h-[90vh] overflow-hidden bg-background sm:min-h-screen">
       {/* Animated background grid */}
       <div className="absolute inset-0 opacity-20">
@@ -78,7 +79,7 @@ export default function Page() {
                 }`}
               >
                 Real-time AI feedback on your answers. Personalized coaching that adapts to your style. Interview
-                simulation so realistic, you'll forget it's practice.
+                simulation so realistic, you&apos;ll forget it&apos;s practice.
               </p>
             </div>
 
@@ -185,5 +186,362 @@ export default function Page() {
       {/* Bottom accent line */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
     </section>
+
+    {/* How It Works Section */}
+    <section className="relative py-16 sm:py-20 md:py-24 bg-background">
+      <div className="container relative mx-auto px-4">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2
+            className={`text-3xl font-bold text-foreground transition-all duration-700 sm:text-4xl md:text-5xl ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+          >
+            How It Works
+          </h2>
+          <p
+            className={`mt-4 text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto transition-all duration-700 delay-100 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+          >
+            Get interview-ready in three simple steps
+          </p>
+        </div>
+
+        <div className="grid gap-8 sm:gap-10 md:grid-cols-3 md:gap-6 lg:gap-8">
+          {/* Step 1 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "200ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
+                <Upload className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
+              </div>
+              <div className="mb-2 text-xs font-semibold text-primary sm:text-sm">Step 1</div>
+              <h3 className="mb-3 text-lg font-semibold text-card-foreground sm:text-xl">Upload Your Resume</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Upload your resume and let our AI analyze your experience, skills, and background to personalize your practice sessions.
+              </p>
+            </div>
+          </div>
+
+          {/* Step 2 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "300ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
+                <Video className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
+              </div>
+              <div className="mb-2 text-xs font-semibold text-primary sm:text-sm">Step 2</div>
+              <h3 className="mb-3 text-lg font-semibold text-card-foreground sm:text-xl">Practice with AI</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Engage in realistic interview simulations. Get real-time feedback on your answers, communication style, and technical accuracy.
+              </p>
+            </div>
+          </div>
+
+          {/* Step 3 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "400ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
+                <BarChart3 className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
+              </div>
+              <div className="mb-2 text-xs font-semibold text-primary sm:text-sm">Step 3</div>
+              <h3 className="mb-3 text-lg font-semibold text-card-foreground sm:text-xl">Review & Improve</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Access detailed performance reports, identify areas for improvement, and track your progress over time.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Expanded Features Section */}
+    <section className="relative py-16 sm:py-20 md:py-24 bg-background border-t border-border">
+      <div className="container relative mx-auto px-4">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2
+            className={`text-3xl font-bold text-foreground transition-all duration-700 sm:text-4xl md:text-5xl ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+          >
+            Everything You Need to Succeed
+          </h2>
+          <p
+            className={`mt-4 text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto transition-all duration-700 delay-100 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+          >
+            Powerful features designed to make you interview-ready
+          </p>
+        </div>
+
+        <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {/* Feature 1 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "200ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
+                <MessageSquare className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
+              </div>
+              <h3 className="mb-3 text-lg font-semibold text-card-foreground sm:text-xl">Voice & Video Analysis</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Advanced AI analyzes your tone, pace, clarity, and body language to help you communicate more effectively.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 2 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "300ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
+                <FileText className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
+              </div>
+              <h3 className="mb-3 text-lg font-semibold text-card-foreground sm:text-xl">Detailed Reports</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Comprehensive performance analytics with actionable insights to help you improve after each session.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 3 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "400ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
+                <PlayCircle className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
+              </div>
+              <h3 className="mb-3 text-lg font-semibold text-card-foreground sm:text-xl">Interview History</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Track all your practice sessions, review past performances, and monitor your improvement journey.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 4 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "500ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
+                <Users className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
+              </div>
+              <h3 className="mb-3 text-lg font-semibold text-card-foreground sm:text-xl">Role-Specific Prep</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Practice with questions tailored to your target role—software engineer, data scientist, product manager, and more.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 5 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "600ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
+                <Zap className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
+              </div>
+              <h3 className="mb-3 text-lg font-semibold text-card-foreground sm:text-xl">Instant Feedback</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Receive immediate, constructive feedback on your answers to help you improve in real-time.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 6 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "700ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 inline-flex rounded-lg bg-primary/10 p-3">
+                <Brain className="h-6 w-6 text-primary sm:h-7 sm:w-7" />
+              </div>
+              <h3 className="mb-3 text-lg font-semibold text-card-foreground sm:text-xl">Smart Question Bank</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Access thousands of interview questions from top tech companies, updated regularly with real interview experiences.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Testimonials Section */}
+    <section className="relative py-16 sm:py-20 md:py-24 bg-background border-t border-border">
+      <div className="container relative mx-auto px-4">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2
+            className={`text-3xl font-bold text-foreground transition-all duration-700 sm:text-4xl md:text-5xl ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+          >
+            Loved by Job Seekers
+          </h2>
+          <p
+            className={`mt-4 text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto transition-all duration-700 delay-100 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+          >
+            See what others are saying about their interview success
+          </p>
+        </div>
+
+        <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
+          {/* Testimonial 1 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "200ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-primary text-primary sm:h-5 sm:w-5" />
+                ))}
+              </div>
+              <p className="mb-6 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                &ldquo;The AI feedback is incredibly detailed. I landed my dream job at a FAANG company after practicing here for just 2 weeks!&rdquo;
+              </p>
+              <div>
+                <div className="font-semibold text-card-foreground">Sarah Chen</div>
+                <div className="text-xs text-muted-foreground sm:text-sm">Software Engineer at Google</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonial 2 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "300ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-primary text-primary sm:h-5 sm:w-5" />
+                ))}
+              </div>
+              <p className="mb-6 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                &ldquo;The interview simulations feel so real. It helped me overcome my anxiety and perform confidently in actual interviews.&rdquo;
+              </p>
+              <div>
+                <div className="font-semibold text-card-foreground">Michael Rodriguez</div>
+                <div className="text-xs text-muted-foreground sm:text-sm">Product Manager at Meta</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonial 3 */}
+          <div
+            className={`group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:rounded-2xl sm:p-8 ${
+              mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+            }`}
+            style={{ transitionDelay: "400ms" }}
+          >
+            <div className="absolute right-0 top-0 h-24 w-24 bg-primary/10 blur-3xl transition-opacity group-hover:opacity-100 opacity-0 sm:h-32 sm:w-32" />
+            <div className="relative">
+              <div className="mb-4 flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-primary text-primary sm:h-5 sm:w-5" />
+                ))}
+              </div>
+              <p className="mb-6 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                &ldquo;The personalized coaching based on my resume was a game-changer. I improved my technical answers significantly.&rdquo;
+              </p>
+              <div>
+                <div className="font-semibold text-card-foreground">Emily Johnson</div>
+                <div className="text-xs text-muted-foreground sm:text-sm">Data Scientist at Amazon</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Final CTA Section */}
+    <section className="relative py-16 sm:py-20 md:py-24 bg-background border-t border-border">
+      <div className="container relative mx-auto px-4">
+        <div
+          className={`relative mx-auto max-w-4xl overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 p-8 text-center sm:rounded-3xl sm:p-12 md:p-16 ${
+            mounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+          }`}
+          style={{ transitionDelay: "200ms" }}
+        >
+          <div className="absolute right-0 top-0 h-64 w-64 bg-primary/10 blur-3xl sm:h-96 sm:w-96" />
+          <div className="relative">
+            <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl md:text-5xl">
+              Ready to Ace Your Next Interview?
+            </h2>
+            <p className="mb-8 text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
+              Join thousands of job seekers who are already practicing with AI and landing their dream jobs.
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-center sm:gap-4">
+              <Button
+                size="lg"
+                className="group h-12 px-6 text-base bg-primary text-primary-foreground hover:bg-primary/90 sm:h-14 sm:px-8 sm:text-lg"
+              >
+                Start practicing free
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 sm:h-5 sm:w-5" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-12 px-6 text-base border-primary/30 bg-primary/5 hover:bg-primary/10 sm:h-14 sm:px-8 sm:text-lg"
+              >
+                Watch demo
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </>
   )
 }
