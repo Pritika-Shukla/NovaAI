@@ -138,24 +138,7 @@ export default function Page() {
             </div>
 
             {/* Stats */}
-            <div
-              className={`grid grid-cols-3 gap-3 pt-6 transition-all duration-700 delay-400 sm:gap-4 sm:pt-8 ${
-                mounted ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
-              }`}
-            >
-              <div className="space-y-1">
-                <div className="text-2xl font-bold text-primary sm:text-3xl">92%</div>
-                <div className="text-xs text-muted-foreground sm:text-sm">Success rate</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-2xl font-bold text-primary sm:text-3xl">50K+</div>
-                <div className="text-xs text-muted-foreground sm:text-sm">Interviews</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-2xl font-bold text-foreground sm:text-3xl">4.9★</div>
-                <div className="text-xs text-muted-foreground sm:text-sm">Rating</div>
-              </div>
-            </div>
+           
           </div>
 
           {/* Right column - Feature cards */}

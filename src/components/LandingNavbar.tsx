@@ -6,11 +6,14 @@ import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase/client"
 import type { User } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
-import { Sparkles } from "lucide-react"
+import { Sparkles, User as UserIcon, LogOut, ChevronDown } from "lucide-react"
+import { logout } from "@/app/(auth)/login/actions"
+import toast from "react-hot-toast"
 
 export function LandingNavbar() {
   const [user, setUser] = useState<User | null>(null)
   const [mounted, setMounted] = useState(false)
+  const [showUserMenu, setShowUserMenu] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -30,12 +33,58 @@ export function LandingNavbar() {
     return () => subscription.unsubscribe()
   }, [])
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!showUserMenu) return
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement
+      if (!target.closest('.user-menu-container')) {
+        setShowUserMenu(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showUserMenu])
+
   const handleGetStarted = () => {
     if (user) {
       router.push("/dashboard")
     } else {
       router.push("/signup")
     }
+  }
+
+  const handleLogout = async () => {
+    try {
+      const result = await logout()
+      if (result.success) {
+        toast.success(result.message || "Successfully signed out!")
+        setShowUserMenu(false)
+        router.push("/")
+        router.refresh()
+      } else {
+        toast.error(result.error || "Failed to sign out. Please try again.")
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred. Please try again.")
+    }
+  }
+
+  const getUserDisplayName = () => {
+    if (!user) return ""
+    // Try to get name from user_metadata first
+    const name = user.user_metadata?.full_name || 
+                 user.user_metadata?.name || 
+                 user.user_metadata?.display_name
+    if (name) return name
+    // Fall back to email
+    return user.email?.split("@")[0] || user.email || "User"
+  }
+
+  const getUserEmail = () => {
+    return user?.email || ""
   }
 
   if (!mounted) {
@@ -72,7 +121,7 @@ export function LandingNavbar() {
           </Link>
 
           {/* Navigation Links & Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             {user ? (
               <>
                 <Link
@@ -81,29 +130,76 @@ export function LandingNavbar() {
                 >
                   Dashboard
                 </Link>
-                <Button
-                  onClick={() => router.push("/dashboard")}
-                  size="sm"
-                  className="h-9 px-4 text-sm bg-primary text-primary-foreground hover:bg-primary/90"
-                >
-                  Go to Dashboard
-                </Button>
+                {/* User Menu */}
+                <div className="relative user-menu-container">
+                  <button
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center gap-2 px-2 sm:px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/30 hover:bg-primary/20 transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                        <UserIcon className="h-4 w-4 text-primary" />
+                      </div>
+                      <div className="hidden min-[375px]:block text-left min-w-0">
+                        <div className="text-sm font-medium text-foreground truncate max-w-[120px] sm:max-w-none">
+                          {getUserDisplayName()}
+                        </div>
+                        <div className="hidden sm:block text-xs text-muted-foreground truncate">
+                          {getUserEmail()}
+                        </div>
+                      </div>
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {showUserMenu && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-40"
+                        onClick={() => setShowUserMenu(false)}
+                      />
+                      <div className="absolute right-0 mt-2 w-56 rounded-lg border border-border bg-card shadow-lg z-50">
+                        <div className="p-2">
+                          <div className="px-3 py-2 border-b border-border">
+                            <div className="text-sm font-medium text-card-foreground">
+                              {getUserDisplayName()}
+                            </div>
+                            <div className="text-xs text-muted-foreground truncate">
+                              {getUserEmail()}
+                            </div>
+                          </div>
+                          <Link
+                            href="/dashboard"
+                            onClick={() => setShowUserMenu(false)}
+                            className="flex items-center gap-2 px-3 py-2 text-sm text-card-foreground hover:bg-primary/10 rounded-md transition-colors"
+                          >
+                            <UserIcon className="h-4 w-4" />
+                            Dashboard
+                          </Link>
+                          <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-card-foreground hover:bg-destructive/10 hover:text-destructive rounded-md transition-colors"
+                          >
+                            <LogOut className="h-4 w-4" />
+                            Sign Out
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
               </>
             ) : (
               <>
-                <Link
-                  href="/login"
-                  className="hidden sm:block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Login
+                <Link href="/signup">
+                  <Button
+                    size="sm"
+                    className="h-9 px-4 text-sm bg-primary text-primary-foreground hover:bg-primary/90"
+                  >
+                    Sign Up
+                  </Button>
                 </Link>
-                <Button
-                  onClick={handleGetStarted}
-                  size="sm"
-                  className="h-9 px-4 text-sm bg-primary text-primary-foreground hover:bg-primary/90"
-                >
-                  Get Started
-                </Button>
                 <Link href="/login">
                   <Button
                     size="sm"
