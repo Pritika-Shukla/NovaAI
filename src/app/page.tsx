@@ -14,7 +14,11 @@ export default function Page() {
   const router = useRouter()
 
   useEffect(() => {
-    setMounted(true)
+    // Use requestAnimationFrame to avoid synchronous setState
+    const frameId = requestAnimationFrame(() => {
+      setMounted(true)
+    })
+    
     // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
@@ -27,7 +31,10 @@ export default function Page() {
       setUser(session?.user ?? null)
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      cancelAnimationFrame(frameId)
+      subscription.unsubscribe()
+    }
   }, [])
 
   const handleGetStarted = () => {

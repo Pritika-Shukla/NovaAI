@@ -17,7 +17,11 @@ export function LandingNavbar() {
   const router = useRouter()
 
   useEffect(() => {
-    setMounted(true)
+    // Use requestAnimationFrame to avoid synchronous setState
+    const frameId = requestAnimationFrame(() => {
+      setMounted(true)
+    })
+    
     // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
@@ -30,7 +34,10 @@ export function LandingNavbar() {
       setUser(session?.user ?? null)
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      cancelAnimationFrame(frameId)
+      subscription.unsubscribe()
+    }
   }, [])
 
   // Close menu when clicking outside
