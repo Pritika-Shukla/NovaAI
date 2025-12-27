@@ -217,11 +217,10 @@ export default function InterviewPage() {
           }
         }
       }
-    });
-    
-    // Also listen for function calls or other message types
-    vapiInstance.on('function-call', (data: any) => {
-      console.log('Function call:', data);
+      // Handle function calls if they come through the message event
+      if (message.type === 'function-call') {
+        console.log('Function call:', message);
+      }
     });
     vapiInstance.on('error', console.error);
 
