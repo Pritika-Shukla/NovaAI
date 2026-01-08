@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Vapi from '@vapi-ai/web';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -8,35 +8,7 @@ import { MessageSquare, Repeat, LogOut, Code, Video, VideoOff, Mic, MicOff } fro
 import { supabase } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-
-interface ResumeData {
-  user_id: string;
-  file_name: string;
-  file_path: string;
-  resume_analysis: unknown;
-  downloadUrl?: string;
-  created_at?: string;
-  updated_at?: string;
-}
-
-interface UploadResponse {
-  resume: ResumeData | null;
-  error?: string;
-}
-
-interface Message {
-  role: string;
-  content: string;
-}
-
-interface AssistantConfig {
-  model?: {
-    provider?: string;
-    model?: string;
-    messages?: Message[];
-  };
-  [key: string]: unknown;
-}
+import type { ResumeData, UploadResponse, Message, TranscriptMessage, AssistantConfig } from "@/types";
 
 export default function InterviewPage() {
   const [resumeAnalysis, setResumeAnalysis] = useState<unknown>(null);
@@ -51,6 +23,10 @@ export default function InterviewPage() {
   const [micEnabled, setMicEnabled] = useState(true);
   const [userStream, setUserStream] = useState<MediaStream | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const [feedback, setFeedback] = useState<string | null>(null);
+  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
+  const transcriptRef = useRef<TranscriptMessage[]>([]);
+  const feedbackGeneratedRef = useRef<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -77,16 +53,13 @@ export default function InterviewPage() {
 
     fetchData();
 
-    // Get user info
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
     });
   }, []);
 
-  // Initialize camera and mic when interview starts
   useEffect(() => {
     if (!isConnected) {
-      // Clean up stream when disconnected
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
         streamRef.current = null;
@@ -103,7 +76,6 @@ export default function InterviewPage() {
         });
         streamRef.current = stream;
         setUserStream(stream);
-        // Set initial states based on what we got
         const videoTrack = stream.getVideoTracks()[0];
         const audioTrack = stream.getAudioTracks()[0];
         if (videoTrack) setCameraEnabled(videoTrack.enabled);
@@ -127,7 +99,6 @@ export default function InterviewPage() {
     };
   }, [isConnected]);
 
-  // Update stream when camera/mic state changes
   useEffect(() => {
     if (!userStream) return;
 
@@ -139,65 +110,60 @@ export default function InterviewPage() {
     });
   }, [cameraEnabled, micEnabled, userStream]);
 
+  const generateFeedback = useCallback(async (transcriptData: TranscriptMessage[]) => {
+    if (transcriptData.length === 0) return;
+    
+    setIsGeneratingFeedback(true);
+    try {
+      const response = await fetch('/api/interview/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          transcript: transcriptData,
+          resumeAnalysis,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate feedback');
+      }
+
+      const result = await response.json();
+      setFeedback(result.feedback);
+      
+      console.log('Interview feedback generated and saved:', result.feedbackId);
+    } catch (error) {
+      console.error('Error generating feedback:', error);
+      setError('Failed to generate feedback. Please try again.');
+    } finally {
+      setIsGeneratingFeedback(false);
+    }
+  }, [resumeAnalysis]);
+
   useEffect(() => {
     if (!resumeAnalysis) return;
 
     const vapiInstance = new Vapi(process.env.NEXT_PUBLIC_VAPI_KEY!);
     setVapi(vapiInstance);
 
-    const assistantConfig: AssistantConfig = {
-      model: {
-        provider: "openai",
-        model: "gpt-4.1-mini",
-        messages: [{ 
-          role: "system", 
-          content: `Here is the candidate resume. Use this as the ONLY source of truth for the interview:
-          ${resumeAnalysis}
-          
-          You are an AI technical interviewer from a fast-paced tech startup.
-          
-          Your job:
-          - Conduct a real-world technical interview.
-          - Ask practical questions only related to techstack no project question.
-          - Evaluate answers like a strict senior engineer.
-          
-          Interview behavior:
-          4. Ask ONE technical question at a time.
-          5. Questions must be strictly based on the candidate's projects and tech stack from the resume.
-          6. Do NOT ask theory, definition, or "explain X" questions.
-          7. Do NOT ask resume or behavioral questions.
-          
-          Answer evaluation rules (MANDATORY, AFTER EVERY ANSWER):
-          
-          Respond in this exact structure — NO extra text:
-          
-          2. **Correct way to answer**
-             - Provide detailed interview answer.
-          
-          Teaching constraints:
-          - Do NOT deeply explain why the candidate was wrong.
-          - Teach by showing the correct answer, not by long criticism.
-          
-          Tone:
-          - Direct
-          - Professional
-          - Startup-style
-          - No compliments
-          - No motivational talk
-          - No filler
-          
-          End behavior:
-          - Continue asking questions until the interview is explicitly stopped.
-          `}],
-      },
-    };
-
     // Event listeners
-    vapiInstance.on('call-start', () => setIsConnected(true));
-    vapiInstance.on('call-end', () => {
+    vapiInstance.on('call-start', () => {
+      setIsConnected(true);
+      transcriptRef.current = []; // Reset ref
+      setFeedback(null); // Reset feedback
+      feedbackGeneratedRef.current = false; // Reset feedback flag
+    });
+    vapiInstance.on('call-end', async () => {
       setIsConnected(false);
       setIsSpeaking(false);
-      // Clean up media stream
+      
+      if (transcriptRef.current.length > 0 && !feedbackGeneratedRef.current) {
+        feedbackGeneratedRef.current = true;
+        await generateFeedback(transcriptRef.current);
+      }
+      
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
         streamRef.current = null;
@@ -206,18 +172,26 @@ export default function InterviewPage() {
     });
     vapiInstance.on('speech-start', () => setIsSpeaking(true));
     vapiInstance.on('speech-end', () => setIsSpeaking(false));
-    vapiInstance.on('message', (message: any) => {
-      if (message.type === 'transcript' && message.role === 'assistant') {
-        // Extract question from assistant messages
+    vapiInstance.on('message', (message: { type?: string; role?: string; transcript?: string; text?: string; content?: string }) => {
+      if (message.type === 'transcript') {
         const text = message.transcript || message.text || message.content || '';
-        if (text && text.length > 10) {
-          // Only update if it looks like a question (contains question mark or is a new statement)
-          if (text.includes('?') || text.length > 20) {
-            setCurrentQuestion(text);
+        const role = message.role || 'assistant';
+        
+        if (text && text.trim().length > 0) {
+          const transcriptMessage: TranscriptMessage = {
+            role,
+            content: text.trim(),
+            timestamp: new Date().toISOString(),
+          };
+          transcriptRef.current = [...transcriptRef.current, transcriptMessage];
+          
+          if (role === 'assistant' && text.length > 10) {
+            if (text.includes('?') || text.length > 20) {
+              setCurrentQuestion(text);
+            }
           }
         }
       }
-      // Handle function calls if they come through the message event
       if (message.type === 'function-call') {
         console.log('Function call:', message);
       }
@@ -227,7 +201,7 @@ export default function InterviewPage() {
     return () => {
       vapiInstance.stop();
     };
-  }, [resumeAnalysis]);
+  }, [resumeAnalysis, generateFeedback]);
 
 
   const startCall = () => {
@@ -247,32 +221,19 @@ export default function InterviewPage() {
           Your job:
           - Conduct a real-world technical interview.
           - Ask practical questions only related to techstack no project question.
-          - Evaluate answers like a strict senior engineer.
+        
           
           Interview behavior:
           4. Ask ONE technical question at a time.
           5. Questions must be strictly based on the candidate's projects and tech stack from the resume.
           6. Do NOT ask theory, definition, or "explain X" questions.
           7. Do NOT ask resume or behavioral questions.
+          only ask 2 qs
           
-          Answer evaluation rules (MANDATORY, AFTER EVERY ANSWER):
           
           Respond in this exact structure — NO extra text:
           
-          2. **Correct way to answer**
-             - Provide detailed interview answer.
-          
-          Teaching constraints:
-          - Do NOT deeply explain why the candidate was wrong.
-          - Teach by showing the correct answer, not by long criticism.
-          
-          Tone:
-          - Direct
-          - Professional
-          - Startup-style
-          - No compliments
-          - No motivational talk
-          - No filler
+        
           
           End behavior:
           - Continue asking questions until the interview is explicitly stopped.
@@ -283,19 +244,27 @@ export default function InterviewPage() {
     (vapi.start as (config: AssistantConfig) => void)(assistantConfig);
   };
 
-  const endCall = () => {
+  const endCall = async () => {
+    if (transcriptRef.current.length > 0 && !feedbackGeneratedRef.current) {
+      feedbackGeneratedRef.current = true;
+      setIsGeneratingFeedback(true);
+      await generateFeedback(transcriptRef.current);
+    }
+    
     vapi?.stop();
+    
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
       setUserStream(null);
     }
-    router.push('/dashboard');
+    
+    setTimeout(() => {
+      router.push('/dashboard');
+    }, isGeneratingFeedback ? 3000 : 1000);
   };
 
   const repeatQuestion = () => {
-    // This would trigger the AI to repeat the last question
-    // For now, we'll just log it
     console.log("Repeat question requested");
   };
 
@@ -429,7 +398,22 @@ export default function InterviewPage() {
           {/* Question Box */}
           <div className="w-full max-w-4xl bg-card border border-border rounded-xl p-6">
             <div className="text-center">
-              {currentQuestion ? (
+              {error ? (
+                <div className="text-destructive text-lg mb-4">
+                  {error}
+                </div>
+              ) : isGeneratingFeedback ? (
+                <p className="text-lg text-muted-foreground">
+                  Generating feedback...
+                </p>
+              ) : feedback ? (
+                <div className="text-left space-y-4">
+                  <h3 className="text-xl font-semibold text-card-foreground mb-4">Interview Feedback</h3>
+                  <div className="prose prose-sm max-w-none text-card-foreground whitespace-pre-wrap">
+                    {feedback}
+                  </div>
+                </div>
+              ) : currentQuestion ? (
                 <p className="text-lg text-card-foreground">
                   {currentQuestion.split('**').map((part, i) => 
                     i % 2 === 1 ? (

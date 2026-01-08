@@ -6,12 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Upload, File, X, Loader2 } from "lucide-react"
 import toast from "react-hot-toast"
-
-interface ResumeUploadModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onUploadSuccess?: () => void
-}
+import type { ResumeUploadModalProps } from "@/types"
 
 export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUploadModalProps) {
   const [file, setFile] = useState<File | null>(null)

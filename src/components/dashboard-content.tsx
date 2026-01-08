@@ -8,10 +8,7 @@ import { UpcomingInterviews } from "@/components/upcoming-interviews"
 import { ResumeUploadModal } from "@/components/resume-upload-modal"
 import { InterviewRoom } from "@/components/interview-room"
 import { ReportsList} from "@/components/reports-list"
-
-interface DashboardContentProps {
-  activeTab: string
-}
+import type { DashboardContentProps } from "@/types"
 
 export function DashboardContent({ activeTab }: DashboardContentProps) {
   const [showUploadModal, setShowUploadModal] = useState(false)

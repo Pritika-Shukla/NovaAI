@@ -5,6 +5,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import OneTapComponent from '@/components/OneTapComponent'
+import GoogleLoginButton from '@/components/GoogleLoginButton'
+import AuthToastHandler from '@/components/AuthToastHandler'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -24,25 +27,42 @@ export default function SignupPage() {
       }
     } catch (error) {
       toast.error('An unexpected error occurred. Please try again.')
+      console.error('Signup error:', error)
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black px-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-black border border-black dark:border-white rounded-lg shadow-lg p-8 space-y-6">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-black dark:text-white mb-2">
-              Create an account
-            </h1>
-            <p className="text-black dark:text-white opacity-70">
-              Sign up to get started
-            </p>
-          </div>
+    <>
+      <AuthToastHandler />
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black px-4">
+        <div className="w-full max-w-md">
+          <div className="bg-white dark:bg-black border border-black dark:border-white rounded-lg shadow-lg p-8 space-y-6">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-black dark:text-white mb-2">
+                Create an account
+              </h1>
+              <p className="text-black dark:text-white opacity-70">
+                Sign up to get started
+              </p>
+            </div>
 
-          <form action={handleSubmit} className="space-y-5">
+            <GoogleLoginButton isSignup={true} />
+            <OneTapComponent />
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-black dark:border-white opacity-20"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white dark:bg-black text-black dark:text-white opacity-70">
+                  Or continue with email
+                </span>
+              </div>
+            </div>
+
+            <form action={handleSubmit} className="space-y-5">
             <div className="space-y-2">
               <label 
                 htmlFor="email" 
@@ -100,10 +120,11 @@ export default function SignupPage() {
                 </Link>
               </div>
             </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -14,14 +14,12 @@ function AuthToastHandlerInner() {
 
     if (authStatus === 'success' && message) {
       toast.success(decodeURIComponent(message))
-      // Clean up URL params
       const url = new URL(window.location.href)
       url.searchParams.delete('auth')
       url.searchParams.delete('message')
       router.replace(url.pathname + url.search)
     } else if (authStatus === 'error' && message) {
       toast.error(decodeURIComponent(message))
-      // Clean up URL params
       const url = new URL(window.location.href)
       url.searchParams.delete('auth')
       url.searchParams.delete('message')

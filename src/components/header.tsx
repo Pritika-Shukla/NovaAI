@@ -1,11 +1,8 @@
 "use client"
 
-import { Menu, Bell, Settings, User } from "lucide-react"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-interface HeaderProps {
-  onMenuClick: () => void
-}
+import type { HeaderProps } from "@/types"
 
 export function Header({ onMenuClick }: HeaderProps) {
   return (
@@ -13,17 +10,6 @@ export function Header({ onMenuClick }: HeaderProps) {
       <div className="flex items-center gap-4 flex-1">
         <Button variant="ghost" size="icon" onClick={onMenuClick}>
           <Menu className="w-5 h-5" />
-        </Button>
-      </div>
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon">
-          <Bell className="w-5 h-5" />
-        </Button>
-        <Button variant="ghost" size="icon">
-          <Settings className="w-5 h-5" />
-        </Button>
-        <Button variant="ghost" size="icon">
-          <User className="w-5 h-5" />
         </Button>
       </div>
     </div>

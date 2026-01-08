@@ -3,12 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-
-export type AuthActionResult = {
-  success: boolean
-  message?: string
-  error?: string
-}
+import type { AuthActionResult } from '@/types'
 
 export async function login(formData: FormData): Promise<AuthActionResult> {
   try {

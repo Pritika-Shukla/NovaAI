@@ -17,12 +17,10 @@ export function LandingNavbar() {
   const router = useRouter()
 
   useEffect(() => {
-    // Use requestAnimationFrame to avoid synchronous setState
     const frameId = requestAnimationFrame(() => {
       setMounted(true)
     })
     
-    // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
     })
@@ -81,7 +79,6 @@ export function LandingNavbar() {
 
   const getUserDisplayName = () => {
     if (!user) return ""
-    // Try to get name from user_metadata first
     const name = user.user_metadata?.full_name || 
                  user.user_metadata?.name || 
                  user.user_metadata?.display_name

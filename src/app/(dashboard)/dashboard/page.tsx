@@ -1,13 +1,16 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { QuickStats } from "@/components/quick-stats"
 import { UpcomingInterviews } from "@/components/upcoming-interviews"
 import { ResumeUploadModal } from "@/components/resume-upload-modal"
 
 export default function DashboardPage() {
   const [showUploadModal, setShowUploadModal] = useState(false)
+  const router = useRouter()
 
   return (
     <div className="flex-1 overflow-auto">
@@ -48,15 +51,26 @@ export default function DashboardPage() {
                   <CardTitle className="text-lg">Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <button className="w-full justify-center" onClick={() => setShowUploadModal(true)}>
+                  <Button
+                    className="w-full"
+                    onClick={() => setShowUploadModal(true)}
+                  >
                     Update Resume
-                  </button>
-                  <button className="w-full justify-center bg-transparent">
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => router.push("/dashboard/interview")}
+                  >
                     Start Interview
-                  </button>
-                  <button className="w-full justify-center bg-transparent">
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => router.push("/dashboard/reports")}
+                  >
                     View My Reports
-                  </button>
+                  </Button>
                 </CardContent>
               </Card>
             </div>

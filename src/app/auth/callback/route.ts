@@ -27,7 +27,6 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // return the user to login with error message
   return NextResponse.redirect(`${origin}/login?auth=error&message=${encodeURIComponent('Invalid authentication code. Please try again.')}`)
 }
 

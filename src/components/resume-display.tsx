@@ -5,20 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { File, Download, Trash2, Upload, Loader2 } from "lucide-react"
 import toast from "react-hot-toast"
-
-interface Resume {
-  id: string
-  file_name: string
-  file_path: string
-  downloadUrl?: string
-  created_at?: string
-  updated_at?: string
-}
-
-interface ResumeDisplayProps {
-  onUploadNew: () => void
-  refreshKey?: number
-}
+import type { Resume, ResumeDisplayProps } from "@/types"
 
 export function ResumeDisplay({ onUploadNew, refreshKey }: ResumeDisplayProps) {
   const [resume, setResume] = useState<Resume | null>(null)
@@ -92,7 +79,6 @@ export function ResumeDisplay({ onUploadNew, refreshKey }: ResumeDisplayProps) {
       return
     }
 
-    // Create a temporary anchor element to trigger download
     const link = document.createElement("a")
     link.href = resume.downloadUrl
     link.download = resume.file_name

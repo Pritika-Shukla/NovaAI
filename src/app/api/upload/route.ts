@@ -27,7 +27,6 @@ export async function POST(request: NextRequest) {
     const uint8Array = new Uint8Array(bytes);
     const result = await extractText(uint8Array);
 
-    // Extract text and analyze it
     let resumeAnalysis = null;
     try {
       const analyzeResponse = await fetch(`${request.nextUrl.origin}/api/analyze`, {
@@ -40,7 +39,6 @@ export async function POST(request: NextRequest) {
 
       if (analyzeResponse.ok) {
         const analysisData = await analyzeResponse.json();
-        // Remove rawResponse if present, keep only the structured data
         if ('rawResponse' in analysisData) {
           delete analysisData.rawResponse;
         }
@@ -50,7 +48,6 @@ export async function POST(request: NextRequest) {
       }
     } catch (analyzeError) {
       console.error("Error calling analyze endpoint:", analyzeError);
-      // Continue with upload even if analysis fails
     }
 
     const fileName = `${user.id}/${Date.now()}-${file.name}`;
@@ -132,7 +129,6 @@ export async function GET() {
       .single();
     
     if (error) {
-      // If no resume found, return null instead of error
       if (error.code === "PGRST116") {
         return NextResponse.json({ resume: null });
       }
@@ -143,7 +139,6 @@ export async function GET() {
       );
     }
     
-    // Get download URL if resume exists
     let downloadUrl = null;
     if (data?.file_path) {
       const { data: urlData } = supabase.storage
@@ -152,7 +147,6 @@ export async function GET() {
       downloadUrl = urlData.publicUrl;
     }
     
-    // Return single resume object for the logged-in user
     return NextResponse.json({ 
       resume: data ? { ...data, downloadUrl } : null 
     });
@@ -175,7 +169,6 @@ export async function DELETE() {
     
     const serviceSupabase = createServiceClient();
     
-    // Get the resume data first to get the file path
     const { data: resumeData, error: fetchError } = await serviceSupabase
       .from('user_resumes')
       .select('file_path')
@@ -195,7 +188,6 @@ export async function DELETE() {
       );
     }
     
-    // Delete from storage
     if (resumeData?.file_path) {
       const { error: storageError } = await supabase.storage
         .from('resumes')
@@ -203,11 +195,9 @@ export async function DELETE() {
       
       if (storageError) {
         console.error("Storage delete error:", storageError);
-        // Continue with database deletion even if storage deletion fails
       }
     }
     
-    // Delete from database
     const { error: dbError } = await serviceSupabase
       .from('user_resumes')
       .delete()

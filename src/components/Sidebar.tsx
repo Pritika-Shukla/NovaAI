@@ -1,16 +1,36 @@
 "use client"
-import { LayoutDashboard, Upload, Video, FileText, History, Settings, LogOut } from "lucide-react"
+import { LayoutDashboard, Upload, Video, FileText, History, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-
-interface SidebarProps {
-  open: boolean
-  setOpen: (open: boolean) => void
-}
+import { usePathname, useRouter } from "next/navigation"
+import { logout } from "@/app/(auth)/login/actions"
+import { useState } from "react"
+import toast from "react-hot-toast"
+import type { SidebarProps } from "@/types"
 
 export function Sidebar({ open, setOpen }: SidebarProps) {
   const pathname = usePathname()
+  const router = useRouter()
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+  
+  const handleLogout = async () => {
+    setIsLoggingOut(true)
+    try {
+      const result = await logout()
+      
+      if (result.success) {
+        toast.success(result.message || 'Successfully signed out!')
+        router.push('/login')
+        router.refresh()
+      } else {
+        toast.error(result.error || 'Failed to sign out. Please try again.')
+      }
+    } catch (error) {
+      toast.error('An unexpected error occurred. Please try again.')
+    } finally {
+      setIsLoggingOut(false)
+    }
+  }
   
   const menuItems = [
     { id: "dashboard", label: "My Dashboard", icon: LayoutDashboard, href: "/dashboard" },
@@ -59,13 +79,15 @@ export function Sidebar({ open, setOpen }: SidebarProps) {
 
       {/* Bottom Actions */}
       <div className="border-t border-sidebar-border p-4 space-y-2">
-        <Button variant="ghost" className="w-full justify-start" size="sm">
-          <Settings className="w-4 h-4" />
-          {open && <span className="ml-3">Settings</span>}
-        </Button>
-        <Button variant="ghost" className="w-full justify-start" size="sm">
+        <Button 
+          variant="ghost" 
+          className="w-full justify-start" 
+          size="sm"
+          onClick={handleLogout}
+          disabled={isLoggingOut}
+        >
           <LogOut className="w-4 h-4" />
-          {open && <span className="ml-3">Logout</span>}
+          {open && <span className="ml-3">{isLoggingOut ? 'Signing out...' : 'Logout'}</span>}
         </Button>
       </div>
     </div>

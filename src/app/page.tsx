@@ -14,17 +14,14 @@ export default function Page() {
   const router = useRouter()
 
   useEffect(() => {
-    // Use requestAnimationFrame to avoid synchronous setState
     const frameId = requestAnimationFrame(() => {
       setMounted(true)
     })
     
-    // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
     })
 
-    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {

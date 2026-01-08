@@ -1,27 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Vapi from '@vapi-ai/web';
-
-interface Message {
-  role: string;
-  content: string;
-}
-
-interface AssistantConfig {
-  model?: {
-    provider?: string;
-    model?: string;
-    messages?: Message[];
-  };
-  [key: string]: unknown;
-}
-
-interface VapiWidgetProps {
-  apiKey: string;
-  assistantId: string;
-  theme?: 'light' | 'dark';
-  mode?: 'text' | 'voice';
-  assistantConfig?: AssistantConfig;
-}
+import type { Message, AssistantConfig, VapiWidgetProps } from '@/types';
 
 const VapiWidget: React.FC<VapiWidgetProps> = ({
   apiKey,
@@ -36,7 +15,6 @@ const VapiWidget: React.FC<VapiWidgetProps> = ({
   const [transcript, setTranscript] = useState<Array<{ role: string; text: string }>>([]);
 
   useEffect(() => {
-    // Check what system prompt the API receives
     const systemPrompt = assistantConfig?.model?.messages?.find(
       (msg: Message) => msg.role === 'system'
     )?.content;
@@ -65,7 +43,6 @@ const VapiWidget: React.FC<VapiWidgetProps> = ({
   }, [apiKey, theme, mode, assistantConfig]);
 
   const startCall = () => {
-    // Check what's being sent when starting the call
     const systemPrompt = assistantConfig?.model?.messages?.find(
       (msg: Message) => msg.role === 'system'
     )?.content;
