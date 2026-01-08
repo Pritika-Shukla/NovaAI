@@ -23,37 +23,74 @@ export function InterviewHistory() {
   const fetchInterviews = async () => {
     try {
       setLoading(true)
-      const response = await fetch("/api/reports")
-      if (!response.ok) throw new Error("Failed to fetch interviews")
+      const response = await fetch("/api/reports", {
+        cache: 'no-store',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error(`Failed to fetch interviews: ${response.statusText}`)
+      }
       const data = await response.json()
-      setInterviews(data.reports || [])
+      
+      // Ensure we have valid data structure and sort by date
+      if (data.reports && Array.isArray(data.reports)) {
+        // Sort by created_at descending (newest first)
+        const sortedReports = data.reports.sort((a: Interview, b: Interview) => {
+          const dateA = new Date(a.created_at).getTime()
+          const dateB = new Date(b.created_at).getTime()
+          return dateB - dateA
+        })
+        setInterviews(sortedReports)
+      } else {
+        console.warn("Invalid data structure received:", data)
+        setInterviews([])
+      }
     } catch (error) {
       console.error("Error fetching interviews:", error)
+      setInterviews([])
     } finally {
       setLoading(false)
     }
   }
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
+    try {
+      const date = new Date(dateString)
+      if (isNaN(date.getTime())) {
+        return "Invalid Date"
+      }
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
+    } catch (error) {
+      console.error("Error formatting date:", error)
+      return "Invalid Date"
+    }
   }
 
   const calculateDuration = (interview: Interview): string => {
     if (interview.transcript && interview.transcript.length > 0) {
+      // Try to get timestamps from transcript
       const timestamps = interview.transcript
         .map((msg) => msg.timestamp)
-        .filter((ts): ts is string => !!ts)
-        .map((ts) => new Date(ts).getTime())
+        .filter((ts): ts is string => !!ts && ts !== '')
+        .map((ts) => {
+          try {
+            return new Date(ts).getTime()
+          } catch {
+            return null
+          }
+        })
+        .filter((ts): ts is number => ts !== null && !isNaN(ts))
         .sort((a, b) => a - b)
       
       if (timestamps.length >= 2) {
         const durationMs = timestamps[timestamps.length - 1] - timestamps[0]
-        const durationMinutes = Math.round(durationMs / (1000 * 60))
+        const durationMinutes = Math.max(1, Math.round(durationMs / (1000 * 60)))
         if (durationMinutes < 60) {
           return `${durationMinutes} min`
         } else {
@@ -62,12 +99,20 @@ export function InterviewHistory() {
           return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`
         }
       }
-    }
-    // Estimate based on transcript length
-    if (interview.transcript && interview.transcript.length > 0) {
-      const estimatedMinutes = Math.max(5, Math.min(60, interview.transcript.length * 2))
+      
+      // If we have transcript but no valid timestamps, estimate based on message count
+      // Average interview: ~2-3 minutes per exchange (question + answer)
+      const messageCount = interview.transcript.length
+      const estimatedMinutes = Math.max(1, Math.min(60, Math.ceil(messageCount / 2)))
       return `${estimatedMinutes} min`
     }
+    
+    // If no transcript, try to estimate from created_at if available
+    if (interview.created_at) {
+      // Default estimate for interviews without transcript data
+      return "~5 min"
+    }
+    
     return "N/A"
   }
 
@@ -218,7 +263,8 @@ export function InterviewHistory() {
           <CardDescription>All your past interviews and feedback</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
@@ -286,6 +332,63 @@ export function InterviewHistory() {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-4">
+            {interviews.map((interview, index) => (
+              <div key={interview.id} className="border border-border rounded-lg p-4 space-y-3">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="font-medium text-foreground">Interview #{index + 1}</p>
+                    <p className="text-xs text-muted-foreground">Technical Interview</p>
+                  </div>
+                  {interview.overall_rating ? (
+                    <Badge className="bg-primary/10 text-primary">
+                      {interview.overall_rating.toFixed(1)}/10
+                    </Badge>
+                  ) : (
+                    <span className="text-sm text-muted-foreground">Pending</span>
+                  )}
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Date:</span>
+                    <span className="text-foreground">{formatDate(interview.created_at)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Duration:</span>
+                    <span className="text-foreground">{calculateDuration(interview)}</span>
+                  </div>
+                  {interview.recommendation && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Recommendation:</span>
+                      <Badge variant="secondary">{interview.recommendation}</Badge>
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-2 pt-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => viewDetails(interview)}
+                  >
+                    <Eye className="w-4 h-4 mr-2" />
+                    View
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => generatePDF(interview)}
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
 
@@ -299,15 +402,16 @@ export function InterviewHistory() {
             className="bg-card border border-border rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-foreground">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">
                   Interview Details
                 </h2>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setSelectedInterview(null)}
+                  className="text-lg sm:text-xl"
                 >
                   ×
                 </Button>
@@ -382,7 +486,7 @@ export function InterviewHistory() {
                   </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Button
                     variant="outline"
                     onClick={() => generatePDF(selectedInterview)}
@@ -414,3 +518,4 @@ export function InterviewHistory() {
     </>
   )
 }
+

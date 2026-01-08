@@ -227,18 +227,18 @@ export function ReportsList() {
               </div>
               <Progress value={averageScore * 10} className="h-2" />
             </div>
-            <div className="grid grid-cols-3 gap-3 text-sm">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 text-sm">
               <div className="bg-muted p-2 rounded">
                 <p className="text-muted-foreground text-xs">Interviews</p>
-                <p className="font-semibold">{reports.length}</p>
+                <p className="font-semibold text-sm sm:text-base">{reports.length}</p>
               </div>
               <div className="bg-muted p-2 rounded">
                 <p className="text-muted-foreground text-xs">Total Practice</p>
-                <p className="font-semibold">{calculateTotalPracticeTime(reports)}</p>
+                <p className="font-semibold text-sm sm:text-base">{calculateTotalPracticeTime(reports)}</p>
               </div>
               <div className="bg-muted p-2 rounded">
                 <p className="text-muted-foreground text-xs">Latest</p>
-                <p className="font-semibold">
+                <p className="font-semibold text-xs sm:text-base">
                   {reports.length > 0 ? formatDate(reports[0].created_at) : "No interviews"}
                 </p>
               </div>
@@ -252,15 +252,15 @@ export function ReportsList() {
         <Card key={report.id}>
           <CardContent className="pt-6">
             <div className="space-y-4">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-semibold text-lg text-foreground">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-base sm:text-lg text-foreground">
                     Interview #{reports.indexOf(report) + 1}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     Technical Interview
                   </p>
-                  <div className="flex items-center gap-2 mt-1">
+                  <div className="flex items-center gap-2 mt-1 flex-wrap">
                     <p className="text-xs text-muted-foreground">
                       {formatDate(report.created_at)}
                     </p>
@@ -270,10 +270,10 @@ export function ReportsList() {
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
+                <div className="text-right shrink-0">
                   {report.overall_rating ? (
                     <>
-                      <div className="text-3xl font-bold text-primary">
+                      <div className="text-2xl sm:text-3xl font-bold text-primary">
                         {report.overall_rating.toFixed(1)}
                       </div>
                       <p className="text-xs text-muted-foreground">/10</p>
@@ -321,11 +321,11 @@ export function ReportsList() {
               </div>
 
               {/* Actions */}
-              <div className="flex gap-2 pt-2">
+              <div className="flex flex-col sm:flex-row gap-2 pt-2">
                 <Button
                   size="sm"
                   variant="outline"
-                  className="flex-1 bg-transparent"
+                  className="flex-1 bg-transparent text-xs sm:text-sm"
                   onClick={() => setSelectedReport(report)}
                 >
                   <Eye className="w-4 h-4 mr-2" />
@@ -334,7 +334,7 @@ export function ReportsList() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="flex-1 bg-transparent"
+                  className="flex-1 bg-transparent text-xs sm:text-sm"
                   onClick={() => generatePDF(report)}
                 >
                   <Download className="w-4 h-4 mr-2" />
@@ -356,15 +356,16 @@ export function ReportsList() {
             className="bg-card border border-border rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-foreground">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">
                   Interview Feedback Details
                 </h2>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setSelectedReport(null)}
+                  className="text-lg sm:text-xl"
                 >
                   ×
                 </Button>
@@ -412,7 +413,7 @@ export function ReportsList() {
                   </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Button
                     variant="outline"
                     onClick={() => generatePDF(selectedReport)}

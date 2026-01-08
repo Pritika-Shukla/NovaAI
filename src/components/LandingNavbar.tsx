@@ -141,7 +141,7 @@ export function LandingNavbar() {
                     className="flex items-center gap-2 px-2 sm:px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/30 hover:bg-primary/20 transition-colors"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                      <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                         <UserIcon className="h-4 w-4 text-primary" />
                       </div>
                       <div className="hidden min-[375px]:block text-left min-w-0">
@@ -153,7 +153,7 @@ export function LandingNavbar() {
                         </div>
                       </div>
                     </div>
-                    <ChevronDown className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                    <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
                   </button>
 
                   {/* Dropdown Menu */}

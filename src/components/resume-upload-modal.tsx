@@ -80,37 +80,37 @@ export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUp
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
       <Card className="max-w-md w-full" onClick={(e) => e.stopPropagation()}>
       <CardHeader>
-        <CardTitle>Update Your Resume</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-lg sm:text-xl">Update Your Resume</CardTitle>
+        <CardDescription className="text-sm">
           Upload or update your resume for interview preparation
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6">
         <div
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
           onDrop={handleDrop}
-          className={`border-2 border-dashed rounded-lg p-8 text-center ${
+          className={`border-2 border-dashed rounded-lg p-6 sm:p-8 text-center ${
             dragActive ? "border-primary bg-primary/5" : "border-border"
           }`}
         >
           {file ? (
             <div className="space-y-3">
-              <File className="w-10 h-10 mx-auto text-primary" />
-              <p className="font-medium">{file.name}</p>
-              <p className="text-sm text-muted-foreground">
+              <File className="w-8 h-8 sm:w-10 sm:h-10 mx-auto text-primary" />
+              <p className="font-medium text-sm sm:text-base break-words">{file.name}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 {(file.size / 1024).toFixed(2)} KB
               </p>
-              <Button variant="outline" size="sm" onClick={() => setFile(null)}>
+              <Button variant="outline" size="sm" onClick={() => setFile(null)} className="text-xs sm:text-sm">
                 <X className="w-4 h-4 mr-2" /> Remove
               </Button>
             </div>
           ) : (
             <>
-              <Upload className="w-10 h-10 mx-auto text-muted-foreground" />
-              <p className="mt-2">Drag & drop or select a file</p>
+              <Upload className="w-8 h-8 sm:w-10 sm:h-10 mx-auto text-muted-foreground" />
+              <p className="mt-2 text-sm sm:text-base">Drag & drop or select a file</p>
               <input
                 type="file"
                 accept=".pdf,.doc,.docx"
@@ -121,7 +121,7 @@ export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUp
               <Button
                 variant="outline"
                 onClick={() => inputRef.current?.click()}
-                className="mt-3"
+                className="mt-3 text-sm sm:text-base"
               >
                 Select File
               </Button>
@@ -129,12 +129,12 @@ export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUp
           )}
         </div>
 
-        <div className="flex gap-3">
-          <Button variant="outline" className="flex-1" onClick={onClose}>
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <Button variant="outline" className="flex-1 text-sm sm:text-base" onClick={onClose}>
             Cancel
           </Button>
           <Button
-            className="flex-1"
+            className="flex-1 text-sm sm:text-base"
             onClick={handleUpload}
             disabled={!file || uploading}
           >

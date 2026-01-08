@@ -14,9 +14,11 @@ export default function DashboardLayout({
   return (
     <div className="flex h-screen bg-background">
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden w-full lg:w-auto">
         <Header onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
-        {children}
+        <div className="flex-1 overflow-auto">
+          {children}
+        </div>
       </div>
     </div>
   )

@@ -99,19 +99,19 @@ export function UpcomingInterviews() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Your Recent Interviews</CardTitle>
-        <CardDescription>Recent interview sessions and practice</CardDescription>
+        <CardTitle className="text-lg sm:text-xl">Your Recent Interviews</CardTitle>
+        <CardDescription className="text-sm">Recent interview sessions and practice</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3 sm:space-y-4">
         {recentInterviews.length === 0 ? (
-          <div className="flex items-center gap-3 p-4 bg-muted rounded-lg">
-            <AlertCircle className="w-5 h-5 text-muted-foreground shrink-0" />
-            <div className="flex-1">
+          <div className="flex items-start sm:items-center gap-3 p-4 bg-muted rounded-lg">
+            <AlertCircle className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5 sm:mt-0" />
+            <div className="flex-1 min-w-0">
               <p className="text-sm text-muted-foreground">
                 No interviews completed yet. Start your first practice interview!
               </p>
               <Button
-                className="mt-3"
+                className="mt-3 text-sm sm:text-base"
                 onClick={handleStartInterview}
               >
                 <Video className="w-4 h-4 mr-2" />
@@ -122,51 +122,52 @@ export function UpcomingInterviews() {
         ) : (
           <>
             {recentInterviews.map((interview) => (
-              <div key={interview.id} className="border border-border rounded-lg p-4 space-y-3">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="font-semibold text-foreground">
+              <div key={interview.id} className="border border-border rounded-lg p-4 sm:p-5 space-y-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-base sm:text-lg text-foreground">
                       Interview #{recentInterviews.indexOf(interview) + 1}
                     </p>
-                    <p className="text-sm text-muted-foreground">Technical Interview</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Technical Interview</p>
                   </div>
-                  <Badge variant="secondary">
+                  <Badge variant="secondary" className="shrink-0">
                     {interview.overall_rating
                       ? `${interview.overall_rating.toFixed(1)}/10`
                       : "Completed"}
                   </Badge>
                 </div>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    {formatDate(interview.created_at)}
+                <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
+                  <div className="flex items-center gap-1.5">
+                    <Calendar className="w-4 h-4 shrink-0" />
+                    <span className="whitespace-nowrap">{formatDate(interview.created_at)}</span>
                   </div>
                   {interview.recommendation && (
                     <div className="flex items-center gap-1">
-                      <Badge variant="outline">{interview.recommendation}</Badge>
+                      <Badge variant="outline" className="text-xs">{interview.recommendation}</Badge>
                     </div>
                   )}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2 pt-1">
                   <Button
                     variant="outline"
-                    className="flex-1"
+                    className="flex-1 text-sm sm:text-base"
                     onClick={() => router.push("/dashboard/reports")}
                   >
                     View Report
                   </Button>
                   <Button
-                    className="flex-1"
+                    className="flex-1 text-sm sm:text-base"
                     onClick={handleStartInterview}
                   >
-                    Start New Interview
+                    <span className="hidden sm:inline">Start New Interview</span>
+                    <span className="sm:hidden">New Interview</span>
                   </Button>
                 </div>
               </div>
             ))}
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full text-sm sm:text-base"
               onClick={handleStartInterview}
             >
               <Video className="w-4 h-4 mr-2" />

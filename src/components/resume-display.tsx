@@ -126,23 +126,23 @@ export function ResumeDisplay({ onUploadNew, refreshKey }: ResumeDisplayProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex items-center gap-4 p-4 border rounded-lg">
-          <File className="w-10 h-10 text-primary" />
-          <div className="flex-1">
-            <p className="font-medium">{resume.file_name}</p>
+        <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 border rounded-lg">
+          <File className="w-8 h-8 sm:w-10 sm:h-10 text-primary shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="font-medium text-sm sm:text-base truncate">{resume.file_name}</p>
             {resume.updated_at && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 Updated: {new Date(resume.updated_at).toLocaleDateString()}
               </p>
             )}
           </div>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <Button
             variant="outline"
             onClick={handleDownload}
-            className="flex-1"
+            className="flex-1 text-sm sm:text-base"
           >
             <Download className="w-4 h-4 mr-2" />
             Download
@@ -151,7 +151,7 @@ export function ResumeDisplay({ onUploadNew, refreshKey }: ResumeDisplayProps) {
             variant="outline"
             onClick={handleDelete}
             disabled={deleting}
-            className="flex-1"
+            className="flex-1 text-sm sm:text-base"
           >
             {deleting ? (
               <>
@@ -167,7 +167,7 @@ export function ResumeDisplay({ onUploadNew, refreshKey }: ResumeDisplayProps) {
           </Button>
           <Button
             onClick={onUploadNew}
-            className="flex-1"
+            className="flex-1 text-sm sm:text-base"
           >
             <Upload className="w-4 h-4 mr-2" />
             Upload New
