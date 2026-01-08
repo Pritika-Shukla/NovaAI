@@ -3,13 +3,12 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Vapi from '@vapi-ai/web';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageSquare, Repeat, LogOut, Video, VideoOff, Mic, MicOff, AlertCircle, Upload } from "lucide-react";
+import { MessageSquare, Repeat, LogOut, Video, VideoOff, Mic, MicOff, AlertCircle, Upload, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import type { ResumeData, UploadResponse, Message, TranscriptMessage, AssistantConfig } from "@/types";
+import type { UploadResponse, TranscriptMessage, AssistantConfig } from "@/types";
 
 export default function InterviewPage() {
   const [resumeAnalysis, setResumeAnalysis] = useState<unknown>(null);
@@ -28,6 +27,7 @@ export default function InterviewPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
+  const [isStartingInterview, setIsStartingInterview] = useState(false);
   const transcriptRef = useRef<TranscriptMessage[]>([]);
   const feedbackGeneratedRef = useRef<boolean>(false);
   const router = useRouter();
@@ -180,6 +180,7 @@ export default function InterviewPage() {
     // Event listeners
     vapiInstance.on('call-start', () => {
       setIsConnected(true);
+      setIsStartingInterview(false);
       transcriptRef.current = []; // Reset ref
       setFeedback(null); // Reset feedback
       feedbackGeneratedRef.current = false; // Reset feedback flag
@@ -227,6 +228,7 @@ export default function InterviewPage() {
     });
     vapiInstance.on('error', (error) => {
       console.error('Vapi error:', error);
+      setIsStartingInterview(false);
     });
 
     return () => {
@@ -236,7 +238,9 @@ export default function InterviewPage() {
 
 
   const startCall = () => {
-    if (!vapi) return;
+    if (!vapi || isStartingInterview) return;
+    
+    setIsStartingInterview(true);
     
     const assistantConfig: AssistantConfig = {
       model: {
@@ -581,16 +585,23 @@ End behavior:
                 <LogOut className="w-4 h-4 mr-2" />
                 Leave interview
               </Button>
-            ) : (
+            ) : hasResume && !loading ? (
               <Button
                 size="lg"
                 onClick={startCall}
-                disabled={loading || !resumeAnalysis || !hasResume}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 sm:px-8 w-full sm:w-auto text-sm sm:text-base"
+                disabled={!resumeAnalysis || isStartingInterview}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 sm:px-8 w-full sm:w-auto text-sm sm:text-base cursor-pointer"
               >
-                Start Interview
+                {isStartingInterview ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Starting...
+                  </>
+                ) : (
+                  "Start Interview"
+                )}
               </Button>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

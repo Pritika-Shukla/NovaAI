@@ -99,22 +99,7 @@ export function ResumeDisplay({ onUploadNew, refreshKey }: ResumeDisplayProps) {
   }
 
   if (!resume) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>No Resume Uploaded</CardTitle>
-          <CardDescription>
-            Upload your resume to get started with interview preparation
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button onClick={onUploadNew} className="w-full">
-            <Upload className="w-4 h-4 mr-2" />
-            Upload Resume
-          </Button>
-        </CardContent>
-      </Card>
-    )
+    return null
   }
 
   return (
