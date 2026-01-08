@@ -2,13 +2,13 @@
 
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Sparkles, Brain, Zap, CheckCircle2, Video, FileText, BarChart3, Users, Star, PlayCircle, Upload, MessageSquare } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { LandingNavbar } from "@/components/LandingNavbar"
 import { useRouter, useSearchParams } from "next/navigation"
 import { supabase } from "@/lib/supabase/client"
 import type { User } from "@supabase/supabase-js"
 
-export default function Page() {
+function PageContent() {
   const [mounted, setMounted] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const router = useRouter()
@@ -342,5 +342,20 @@ export default function Page() {
       </div>
     </section>
     </>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={
+      <>
+        <LandingNavbar />
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="text-muted-foreground">Loading...</div>
+        </div>
+      </>
+    }>
+      <PageContent />
+    </Suspense>
   )
 }
