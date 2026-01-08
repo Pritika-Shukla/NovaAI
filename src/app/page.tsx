@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Sparkles, Brain, Zap, CheckCircle2, Video, FileText, BarChart3, Users, Star, PlayCircle, Upload, MessageSquare } from "lucide-react"
 import { useEffect, useState } from "react"
 import { LandingNavbar } from "@/components/LandingNavbar"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { supabase } from "@/lib/supabase/client"
 import type { User } from "@supabase/supabase-js"
 
@@ -12,8 +12,18 @@ export default function Page() {
   const [mounted, setMounted] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
+    // Handle OAuth callback code if present (fallback in case Supabase redirects here)
+    const code = searchParams.get('code')
+    if (code) {
+      // Redirect to the auth callback route to handle the code exchange
+      const next = searchParams.get('next') || '/dashboard'
+      router.replace(`/auth/callback?code=${code}&next=${next}`)
+      return
+    }
+
     const frameId = requestAnimationFrame(() => {
       setMounted(true)
     })
@@ -32,7 +42,7 @@ export default function Page() {
       cancelAnimationFrame(frameId)
       subscription.unsubscribe()
     }
-  }, [])
+  }, [searchParams, router])
 
   const handleGetStarted = () => {
     if (user) {
