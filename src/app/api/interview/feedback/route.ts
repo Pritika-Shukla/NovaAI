@@ -69,9 +69,6 @@ Please provide detailed feedback in the following structure:
    - List 3-5 areas that need work
    - Specific recommendations
 
-7. **Recommendation**
-   - Hire/Maybe/No Hire recommendation
-   - Justification for the recommendation
 
 Keep the feedback professional, constructive, and specific. Reference actual examples from the transcript where possible.`;
 
