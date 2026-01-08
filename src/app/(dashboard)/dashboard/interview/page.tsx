@@ -4,7 +4,8 @@ import Vapi from '@vapi-ai/web';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, Repeat, LogOut, Code, Video, VideoOff, Mic, MicOff } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { MessageSquare, Repeat, LogOut, Code, Video, VideoOff, Mic, MicOff, AlertCircle, Upload } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
@@ -12,6 +13,7 @@ import type { ResumeData, UploadResponse, Message, TranscriptMessage, AssistantC
 
 export default function InterviewPage() {
   const [resumeAnalysis, setResumeAnalysis] = useState<unknown>(null);
+  const [hasResume, setHasResume] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [vapi, setVapi] = useState<Vapi | null>(null);
@@ -43,6 +45,7 @@ export default function InterviewPage() {
 
         const result: UploadResponse = await response.json();
         setResumeAnalysis(result.resume?.resume_analysis || null);
+        setHasResume(!!result.resume);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch data");
         console.error("Error fetching upload data:", err);
@@ -398,7 +401,29 @@ export default function InterviewPage() {
           {/* Question Box */}
           <div className="w-full max-w-4xl bg-card border border-border rounded-xl p-6">
             <div className="text-center">
-              {error ? (
+              {!hasResume && !loading ? (
+                <Card className="border-destructive/50 bg-destructive/5">
+                  <CardHeader>
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <AlertCircle className="w-5 h-5 text-destructive" />
+                      <CardTitle className="text-destructive">Resume Not Uploaded</CardTitle>
+                    </div>
+                    <CardDescription className="text-muted-foreground">
+                      Please upload your resume before starting an interview.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button
+                      size="lg"
+                      onClick={() => router.push("/dashboard/upload")}
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                      <Upload className="w-4 h-4 mr-2" />
+                      Upload Resume
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : error ? (
                 <div className="text-destructive text-lg mb-4">
                   {error}
                 </div>
@@ -462,7 +487,7 @@ export default function InterviewPage() {
               <Button
                 size="lg"
                 onClick={startCall}
-                disabled={loading || !resumeAnalysis}
+                disabled={loading || !resumeAnalysis || !hasResume}
                 className="bg-primary text-primary-foreground hover:bg-primary/90 px-8"
               >
                 Start Interview

@@ -1,16 +1,44 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { QuickStats } from "@/components/quick-stats"
 import { UpcomingInterviews } from "@/components/upcoming-interviews"
 import { ResumeUploadModal } from "@/components/resume-upload-modal"
+import toast from "react-hot-toast"
+import { AlertCircle, Upload } from "lucide-react"
 
 export default function DashboardPage() {
   const [showUploadModal, setShowUploadModal] = useState(false)
+  const [hasResume, setHasResume] = useState<boolean | null>(null)
   const router = useRouter()
+
+  useEffect(() => {
+    const checkResume = async () => {
+      try {
+        const response = await fetch("/api/upload", {
+          credentials: "include",
+        })
+        const data = await response.json()
+        setHasResume(!!data.resume)
+      } catch (error) {
+        console.error("Error checking resume:", error)
+        setHasResume(false)
+      }
+    }
+    checkResume()
+  }, [])
+
+  const handleStartInterview = () => {
+    if (!hasResume) {
+      toast.error("Please upload your resume before starting an interview")
+      router.push("/dashboard/upload")
+    } else {
+      router.push("/dashboard/interview")
+    }
+  }
 
   return (
     <div className="flex-1 overflow-auto">
@@ -60,8 +88,11 @@ export default function DashboardPage() {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => router.push("/dashboard/interview")}
+                    onClick={handleStartInterview}
                   >
+                    {hasResume === false && (
+                      <AlertCircle className="w-4 h-4 mr-2 text-destructive" />
+                    )}
                     Start Interview
                   </Button>
                   <Button

@@ -7,11 +7,38 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
+import toast from "react-hot-toast"
 
 export function UpcomingInterviews() {
   const [recentInterviews, setRecentInterviews] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [hasResume, setHasResume] = useState<boolean | null>(null)
   const router = useRouter()
+
+  useEffect(() => {
+    const checkResume = async () => {
+      try {
+        const response = await fetch("/api/upload", {
+          credentials: "include",
+        })
+        const data = await response.json()
+        setHasResume(!!data.resume)
+      } catch (error) {
+        console.error("Error checking resume:", error)
+        setHasResume(false)
+      }
+    }
+    checkResume()
+  }, [])
+
+  const handleStartInterview = () => {
+    if (!hasResume) {
+      toast.error("Please upload your resume before starting an interview")
+      router.push("/dashboard/upload")
+    } else {
+      router.push("/dashboard/interview")
+    }
+  }
 
   useEffect(() => {
     fetchRecentInterviews()
@@ -85,7 +112,7 @@ export function UpcomingInterviews() {
               </p>
               <Button
                 className="mt-3"
-                onClick={() => router.push("/dashboard/interview")}
+                onClick={handleStartInterview}
               >
                 <Video className="w-4 h-4 mr-2" />
                 Start Interview
@@ -130,7 +157,7 @@ export function UpcomingInterviews() {
                   </Button>
                   <Button
                     className="flex-1"
-                    onClick={() => router.push("/dashboard/interview")}
+                    onClick={handleStartInterview}
                   >
                     Start New Interview
                   </Button>
@@ -140,7 +167,7 @@ export function UpcomingInterviews() {
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => router.push("/dashboard/interview")}
+              onClick={handleStartInterview}
             >
               <Video className="w-4 h-4 mr-2" />
               Start New Interview
