@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 
 declare const google: { accounts: accounts }
 
+// generate nonce to use for google id token sign-in
 const generateNonce = async (): Promise<string[]> => {
   const nonce = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))))
   const encoder = new TextEncoder()
@@ -27,6 +28,7 @@ const OneTapComponent = () => {
     const [nonce, hashedNonce] = await generateNonce()
     console.log('Nonce: ', nonce, hashedNonce)
 
+    // check if there's already an existing session before initializing the one-tap UI
     const { data, error } = await supabase.auth.getSession()
     if (error) {
       console.error('Error getting session', error)
@@ -45,6 +47,7 @@ const OneTapComponent = () => {
         try {
           toast.loading('Signing in with Google...', { id: 'one-tap-login' })
           
+          // send id token returned in response.credential to supabase
           const { data, error } = await supabase.auth.signInWithIdToken({
             provider: 'google',
             token: response.credential,
