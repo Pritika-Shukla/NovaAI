@@ -48,7 +48,7 @@ export default function SignupPage() {
               </p>
             </div>
 
-            <GoogleLoginButton isSignup={true} />
+            <GoogleLoginButton />
             <OneTapComponent />
 
             <div className="relative">
