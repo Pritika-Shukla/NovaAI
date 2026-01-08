@@ -2,44 +2,28 @@
 
 import { supabase } from "@/lib/supabase/client"
 import toast from 'react-hot-toast'
-import type { GoogleLoginButtonProps } from "@/types"
 
-export default function GoogleLoginButton({ 
-  label, 
-  isSignup = false 
-}: GoogleLoginButtonProps = {}) {
+export default function GoogleLoginButton() {
   const handleGoogleLogin = async () => {
     try {
-      // Use environment variable for production URL, fallback to current origin
-      const siteUrl = process.env.NEXT_PUBLIC_SUPABASE_URL|| window.location.origin
-      const redirectTo = `${siteUrl}/auth/callback?next=/dashboard`
-      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo,
+          redirectTo: `${window.location.origin}/auth/callback`,
         },
       })
 
       if (error) {
-        const errorMessage = isSignup 
-          ? 'Failed to initiate Google signup. Please try again.'
-          : 'Failed to initiate Google login. Please try again.'
-        toast.error(errorMessage)
+        toast.error('Failed to initiate Google login. Please try again.')
         console.error('Error logging in with Google:', error)
       } else {
-        const loadingMessage = isSignup
-          ? 'Redirecting to Google for signup...'
-          : 'Redirecting to Google...'
-        toast.loading(loadingMessage, { id: 'google-login' })
+        toast.loading('Redirecting to Google...', { id: 'google-login' })
       }
     } catch (error) {
       toast.error('An unexpected error occurred. Please try again.')
       console.error('Error logging in with Google:', error)
     }
   }
-
-  const buttonText = label || (isSignup ? 'Sign up with Google' : 'Continue with Google')
 
   return (
     <button
@@ -65,8 +49,7 @@ export default function GoogleLoginButton({
           d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
         />
       </svg>
-      <span>{buttonText}</span>
+      <span>Continue with Google</span>
     </button>
   )
 }
-
