@@ -6,10 +6,14 @@ import toast from 'react-hot-toast'
 export default function GoogleLoginButton() {
   const handleGoogleLogin = async () => {
     try {
+      // Use environment variable for production, fallback to current origin
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+      const redirectTo = `${siteUrl}/auth/callback`
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo,
         },
       })
 
