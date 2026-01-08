@@ -10,9 +10,9 @@ export default function GoogleLoginButton({
 }: GoogleLoginButtonProps = {}) {
   const handleGoogleLogin = async () => {
     try {
-      const redirectTo = isSignup 
-        ? `${window.location.origin}/auth/callback?next=/dashboard`
-        : `${window.location.origin}/auth/callback?next=/dashboard`
+      // Use environment variable for production URL, fallback to current origin
+      const siteUrl = process.env.NEXT_PUBLIC_SUPABASE_URL|| window.location.origin
+      const redirectTo = `${siteUrl}/auth/callback?next=/dashboard`
       
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
