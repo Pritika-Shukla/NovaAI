@@ -20,7 +20,14 @@ export function Header({ onMenuClick }: HeaderProps) {
   return (
     <div className="bg-card border-b border-border h-16 flex items-center px-4 sm:px-6">
       <div className="flex items-center gap-2 sm:gap-4">
-       
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          onClick={onMenuClick} 
+          className="lg:hidden h-9 w-9"
+        >
+          <Menu className="w-5 h-5" />
+        </Button>
         <h1 className="text-lg sm:text-xl font-semibold text-foreground">{getPageTitle()}</h1>
       </div>
     </div>

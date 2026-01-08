@@ -11,9 +11,24 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+
+  useEffect(() => {
+    // Set sidebar to open on large screens by default
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setSidebarOpen(true)
+      } else {
+        setSidebarOpen(false)
+      }
+    }
+    
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -57,7 +72,11 @@ export default function DashboardLayout({
   return (
     <div className="flex h-screen bg-background">
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
-      <div className="flex-1 flex flex-col overflow-hidden w-full lg:w-auto">
+      <div 
+        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${
+          sidebarOpen ? "" : "lg:ml-0"
+        }`}
+      >
         <Header onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
         <div className="flex-1 overflow-auto">
           {children}
