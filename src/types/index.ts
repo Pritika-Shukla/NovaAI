@@ -90,6 +90,8 @@ export interface ResumeUploadModalProps {
   isOpen: boolean
   onClose: () => void
   onUploadSuccess?: () => void
+  /** When true, render inline on the page (no overlay, no close on outside click) */
+  embedded?: boolean
 }
 
 export interface DashboardContentProps {

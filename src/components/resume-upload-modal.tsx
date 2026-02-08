@@ -8,7 +8,7 @@ import { Upload, File, X, Loader2 } from "lucide-react"
 import toast from "react-hot-toast"
 import type { ResumeUploadModalProps } from "@/types"
 
-export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUploadModalProps) {
+export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess, embedded = false }: ResumeUploadModalProps) {
   const [file, setFile] = useState<File | null>(null)
   const [dragActive, setDragActive] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -59,7 +59,7 @@ export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUp
 
       toast.success("Resume uploaded successfully!")
       setFile(null)
-      onClose()
+      if (!embedded) onClose()
       onUploadSuccess?.()
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Failed to upload resume"
@@ -71,14 +71,9 @@ export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUp
   }
 
   const inputRef = useRef<HTMLInputElement>(null)
-  
-  if (!isOpen) {
-    return null
-  }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
-      <Card className="max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+  const cardContent = (
+    <Card className={embedded ? "w-full max-w-2xl mx-auto" : "max-w-md w-full"}>
       <CardHeader>
         <CardTitle className="text-lg sm:text-xl">Update Your Resume</CardTitle>
         <CardDescription className="text-sm">
@@ -130,8 +125,12 @@ export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUp
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-          <Button variant="outline" className="flex-1 text-sm sm:text-base" onClick={onClose}>
-            Cancel
+          <Button
+            variant="outline"
+            className="flex-1 text-sm sm:text-base"
+            onClick={() => (embedded ? setFile(null) : onClose())}
+          >
+            {embedded ? "Clear" : "Cancel"}
           </Button>
           <Button
             className="flex-1 text-sm sm:text-base"
@@ -150,6 +149,23 @@ export function ResumeUploadModal({ isOpen, onClose, onUploadSuccess }: ResumeUp
         </div>
       </CardContent>
     </Card>
+  )
+
+  if (embedded) {
+    return <div className="w-full">{cardContent}</div>
+  }
+
+  if (!isOpen) return null
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onClick={onClose}
+      role="presentation"
+    >
+      <div onClick={(e) => e.stopPropagation()} role="presentation">
+        {cardContent}
+      </div>
     </div>
   )
 }

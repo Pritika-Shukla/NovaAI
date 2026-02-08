@@ -7,8 +7,15 @@ export async function getAuthenticatedUser(): Promise<
   | { error: NextResponse }
 > {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
 
+  const { data: claimsData } = await supabase.auth.getClaims();
+  if (!claimsData?.claims) {
+    return {
+      error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+    };
+  }
+
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) {
     return {
       error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),

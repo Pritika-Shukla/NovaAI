@@ -198,12 +198,8 @@ export function InterviewHistory() {
   if (interviews.length === 0) {
     return (
       <Card>
-        <CardHeader>
-          <CardTitle>Your Interview History</CardTitle>
-          <CardDescription>All your past interviews and feedback</CardDescription>
-        </CardHeader>
         <CardContent>
-          <p className="text-center text-muted-foreground py-8">
+          <p className="text-center text-muted-foreground py-2">
             No interviews completed yet. Start your first interview to see your history here.
           </p>
         </CardContent>

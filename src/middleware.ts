@@ -27,26 +27,32 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // Do not run code between createServerClient and
-  // supabase.auth.getUser(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
+  const { data } = await supabase.auth.getClaims()
+  const isAuthenticated = !!data?.claims
 
-  // IMPORTANT: DO NOT REMOVE auth.getUser()
+  const pathname = request.nextUrl.pathname
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  if (isAuthenticated && (pathname.startsWith('/login') || pathname.startsWith('/signup'))) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/dashboard'
+    return NextResponse.redirect(url)
+  }
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/signup') &&
-    !request.nextUrl.pathname.startsWith('/auth') &&
-    !request.nextUrl.pathname.startsWith('/error') &&
-    !request.nextUrl.pathname.startsWith('/api') &&
-    request.nextUrl.pathname !== '/'
-  ) {
-    // no user, redirect to landing page
+  // Unauthenticated: block all API routes with 401
+  if (!isAuthenticated && pathname.startsWith('/api')) {
+    const res = NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    supabaseResponse.cookies.getAll().forEach((c) => res.cookies.set(c.name, c.value))
+    return res
+  }
+
+  // Unauthenticated: redirect non-public page routes to landing
+  const isPublicPage =
+    pathname === '/' ||
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/signup') ||
+    pathname.startsWith('/auth') ||
+    pathname.startsWith('/error')
+  if (!isAuthenticated && !isPublicPage) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
     return NextResponse.redirect(url)

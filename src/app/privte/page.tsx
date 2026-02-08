@@ -4,10 +4,11 @@ import { createClient } from '@/lib/supabase/server'
 export default async function PrivatePage() {
   const supabase = await createClient()
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
+  const { data: claimsData } = await supabase.auth.getClaims()
+  if (!claimsData?.claims) {
     redirect('/login')
   }
 
-  return <p>Hello {data.user.email}</p>
+  const { data: { user } } = await supabase.auth.getUser()
+  return <p>Hello {user?.email ?? 'user'}</p>
 }

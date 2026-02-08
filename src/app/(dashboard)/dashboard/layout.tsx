@@ -78,7 +78,7 @@ export default function DashboardLayout({
         }`}
       >
         <Header onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto flex flex-col min-h-0">
           {children}
         </div>
       </div>

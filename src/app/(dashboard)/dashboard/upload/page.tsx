@@ -19,17 +19,9 @@ export default function UploadPage() {
         const data = await response.json()
         const resumeExists = !!data.resume
         setHasResume(resumeExists)
-        
-        // Auto-open modal if no resume exists
-        if (!resumeExists) {
-          setIsModalOpen(true)
-        } else {
-          setIsModalOpen(false)
-        }
       } catch (error) {
         console.error("Error checking resume:", error)
         setHasResume(false)
-        setIsModalOpen(true)
       } finally {
         setLoading(false)
       }
@@ -38,31 +30,36 @@ export default function UploadPage() {
   }, [refreshKey])
 
   const handleUploadSuccess = () => {
-    setRefreshKey(prev => prev + 1)
+    setRefreshKey((prev) => prev + 1)
     setHasResume(true)
     setIsModalOpen(false)
   }
 
   return (
-    <div className="flex-1 overflow-auto">
-      <div className="p-4 sm:p-6">
-        <div className="space-y-4 sm:space-y-6">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">My Resume</h1>
-            <p className="text-sm sm:text-base text-muted-foreground mt-1">Upload or update your resume for interviews.</p>
-          </div>
-          {!loading && hasResume && (
-            <ResumeDisplay 
-              onUploadNew={() => setIsModalOpen(true)} 
-              refreshKey={refreshKey}
+    <div className="flex-1 min-h-0 flex items-center justify-center p-4 sm:p-6">
+      <div className="w-full max-w-2xl shrink-0 space-y-4 sm:space-y-6">
+          {loading ? (
+            <p className="text-muted-foreground text-center">Loading...</p>
+          ) : hasResume ? (
+            <>
+              <ResumeDisplay
+                onUploadNew={() => setIsModalOpen(true)}
+                refreshKey={refreshKey}
+              />
+              <ResumeUploadModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onUploadSuccess={handleUploadSuccess}
+              />
+            </>
+          ) : (
+            <ResumeUploadModal
+              embedded
+              isOpen={true}
+              onClose={() => {}}
+              onUploadSuccess={handleUploadSuccess}
             />
           )}
-          <ResumeUploadModal 
-            isOpen={isModalOpen} 
-            onClose={() => setIsModalOpen(false)}
-            onUploadSuccess={handleUploadSuccess}
-          />
-        </div>
       </div>
     </div>
   )
