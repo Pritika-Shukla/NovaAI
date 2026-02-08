@@ -65,3 +65,8 @@ export async function updateSession(request: NextRequest) {
 
   return supabaseResponse
 }
+
+// Next.js requires this export name (or default). The logic lives in updateSession above.
+export async function middleware(request: NextRequest) {
+  return await updateSession(request)
+}
