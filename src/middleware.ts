@@ -27,8 +27,13 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  const { data } = await supabase.auth.getClaims()
-  const isAuthenticated = !!data?.claims
+  let isAuthenticated = false
+  try {
+    const { data } = await supabase.auth.getClaims()
+    isAuthenticated = !!data?.claims
+  } catch {
+    // Supabase returned non-JSON (e.g. HTML) — wrong URL or network; treat as unauthenticated
+  }
 
   const pathname = request.nextUrl.pathname
 
@@ -75,4 +80,9 @@ export async function updateSession(request: NextRequest) {
 // Next.js requires this export name (or default). The logic lives in updateSession above.
 export async function middleware(request: NextRequest) {
   return await updateSession(request)
+}
+
+// Don't run middleware on static assets — so CSS/JS chunks always load
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:ico|png|svg|webp)).*)"],
 }
