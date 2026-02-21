@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" >
+    <html lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
@@ -35,37 +35,37 @@ export default function RootLayout({
           toastOptions={{
             duration: 4000,
             style: {
-              background: "#020617",
-              color: "#e5e7eb",
-              border: "1px solid #1f2937",
+              background: "#18181b",
+              color: "#fafafa",
+              border: "1px solid #27272a",
             },
             success: {
               iconTheme: {
-                primary: "#3b82f6",
-                secondary: "#020617",
+                primary: "#22c55e",
+                secondary: "#18181b",
               },
               style: {
-                background: "#1e3a5f",
-                color: "#e5e7eb",
-                border: "1px solid #2563eb",
+                background: "#18181b",
+                color: "#fafafa",
+                border: "1px solid #27272a",
               },
             },
             error: {
               iconTheme: {
-                primary: "#3b82f6",
-                secondary: "#020617",
+                primary: "#ef4444",
+                secondary: "#18181b",
               },
               style: {
-                background: "#450a0a",
-                color: "#fee2e2",
-                border: "1px solid #b91c1c",
+                background: "#18181b",
+                color: "#fafafa",
+                border: "1px solid #ef4444",
               },
             },
             loading: {
               style: {
-                background: "#020617",
-                color: "#e5e7eb",
-                border: "1px solid #1f2937",
+                background: "#18181b",
+                color: "#fafafa",
+                border: "1px solid #27272a",
               },
             },
           }}

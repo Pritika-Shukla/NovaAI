@@ -36,14 +36,14 @@ export default function SignupPage() {
   return (
     <>
       <AuthToastHandler />
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black px-4">
+      <div className="min-h-screen flex items-center justify-center bg-zinc-950 px-4">
         <div className="w-full max-w-md">
-          <div className="bg-white dark:bg-black border border-black dark:border-white rounded-lg shadow-lg p-8 space-y-6">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg p-8 space-y-6">
             <div className="text-center">
-              <h1 className="text-2xl font-bold text-black dark:text-white mb-2">
+              <h1 className="text-2xl font-bold text-white mb-2">
                 Create an account
               </h1>
-              <p className="text-black dark:text-white opacity-70">
+              <p className="text-zinc-400">
                 Sign up to get started
               </p>
             </div>
@@ -53,10 +53,10 @@ export default function SignupPage() {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-black dark:border-white opacity-20"></div>
+                <div className="w-full border-t border-zinc-700"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white dark:bg-black text-black dark:text-white opacity-70">
+                <span className="px-2 bg-zinc-900 text-zinc-400">
                   Or continue with email
                 </span>
               </div>
@@ -66,7 +66,7 @@ export default function SignupPage() {
             <div className="space-y-2">
               <label 
                 htmlFor="email" 
-                className="block text-sm font-medium text-black dark:text-white"
+                className="block text-sm font-medium text-zinc-300"
               >
                 Email
               </label>
@@ -76,7 +76,7 @@ export default function SignupPage() {
                 type="email"
                 required
                 disabled={isLoading}
-                className="w-full px-4 py-2.5 border border-black dark:border-white rounded-lg focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-all bg-white dark:bg-black text-black dark:text-white placeholder-black dark:placeholder-white placeholder-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2.5 border border-zinc-700 rounded-lg focus:ring-2 focus:ring-zinc-500 focus:border-transparent outline-none transition-all bg-zinc-950 text-white placeholder-zinc-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="name@example.com"
               />
             </div>
@@ -84,7 +84,7 @@ export default function SignupPage() {
             <div className="space-y-2">
               <label 
                 htmlFor="password" 
-                className="block text-sm font-medium text-black dark:text-white"
+                className="block text-sm font-medium text-zinc-300"
               >
                 Password
               </label>
@@ -95,7 +95,7 @@ export default function SignupPage() {
                 required
                 disabled={isLoading}
                 minLength={6}
-                className="w-full px-4 py-2.5 border border-black dark:border-white rounded-lg focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent outline-none transition-all bg-white dark:bg-black text-black dark:text-white placeholder-black dark:placeholder-white placeholder-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2.5 border border-zinc-700 rounded-lg focus:ring-2 focus:ring-zinc-500 focus:border-transparent outline-none transition-all bg-zinc-950 text-white placeholder-zinc-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter your password (min. 6 characters)"
               />
             </div>
@@ -104,17 +104,17 @@ export default function SignupPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-black dark:bg-white hover:opacity-80 text-white dark:text-black font-medium py-2.5 px-4 rounded-lg transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-white hover:bg-zinc-200 text-zinc-950 font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? 'Creating account...' : 'Sign up'}
               </button>
               <div className="text-center text-sm">
-                <span className="text-black dark:text-white opacity-70">
+                <span className="text-zinc-400">
                   Already have an account?{' '}
                 </span>
                 <Link
                   href="/login"
-                  className="font-medium text-black dark:text-white hover:underline"
+                  className="font-medium text-white hover:underline"
                 >
                   Log in
                 </Link>
