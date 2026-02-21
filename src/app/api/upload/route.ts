@@ -29,22 +29,25 @@ export async function POST(request: NextRequest) {
 
     let resumeAnalysis = null;
     try {
+      const cookieHeader = request.headers.get("cookie");
       const analyzeResponse = await fetch(`${request.nextUrl.origin}/api/analyze`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
+          ...(cookieHeader ? { Cookie: cookieHeader } : {}),
         },
-        body: JSON.stringify({ resumeText: result.text }),
+        body: JSON.stringify({ resumeText: result.text ?? "" }),
       });
 
       if (analyzeResponse.ok) {
         const analysisData = await analyzeResponse.json();
-        if ('rawResponse' in analysisData) {
+        if ("rawResponse" in analysisData) {
           delete analysisData.rawResponse;
         }
         resumeAnalysis = analysisData;
       } else {
-        console.error("Analysis failed, continuing without analysis");
+        const errBody = await analyzeResponse.text();
+        console.error("Analysis failed:", analyzeResponse.status, errBody);
       }
     } catch (analyzeError) {
       console.error("Error calling analyze endpoint:", analyzeError);
