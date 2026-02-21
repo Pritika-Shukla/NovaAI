@@ -38,7 +38,7 @@ export function Hero() {
 
         {/* Headline with text mask animation */}
         <h1
-          className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6"
+          className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 pt-24"
           style={{ fontFamily: "var(--font-cal-sans), sans-serif" }}
         >
           <span className="block overflow-hidden">
@@ -69,32 +69,39 @@ export function Hero() {
           Practice with an AI interviewer tailored to your resume. Get real-time feedback, performance insights, and the confidence to nail your next technical interview.
         </motion.p>
 
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-        >
-          <Link href="/signup">
-            <Button
-              size="lg"
-              className="shimmer-btn bg-white text-zinc-950 hover:bg-zinc-200 rounded-full px-8 h-12 text-base font-medium shadow-lg shadow-white/10"
-            >
-              Start Practicing
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </Link>
-          <Link href="#features">
-            <Button
-              variant="outline"
-              size="lg"
-              className="rounded-full px-8 h-12 text-base font-medium border-zinc-800 text-zinc-300 hover:bg-zinc-900 hover:text-white hover:border-zinc-700 bg-transparent"
-            >
-              See How It Works
-            </Button>
-          </Link>
-        </motion.div>
+        <div className="py-12 w-full max-w-full mx-auto px-1 sm:px-2">
+          {/* Video Demo Section - wrapped in background panel */}
+          <section className="relative w-full max-w-[100rem] mx-auto">
+            {/* Background panel wrapping the video */}
+            <div className="relative rounded-2xl bg-zinc-900/90 border border-zinc-800/80 shadow-2xl py-4 px-3 sm:px-4 md:px-6 lg:px-8">
+              {/* Outer glow */}
+              <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-zinc-600/20 via-transparent to-transparent blur-xl opacity-50 pointer-events-none" aria-hidden />
+              {/* Video container with gradient border */}
+              <div className="relative">
+                <div className="relative w-full max-w-[90rem] mx-auto">
+                  {/* Gradient border effect */}
+                  <div className="relative rounded-2xl p-px bg-gradient-to-b from-zinc-500/40 via-zinc-600/20 to-zinc-800/40 shadow-[0_0_40px_-12px_rgba(0,0,0,0.5)]">
+                    {/* Inner frame */}
+                    <div className="relative overflow-hidden rounded-2xl bg-zinc-950/95 backdrop-blur-sm">
+                      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent z-10" aria-hidden />
+                      <div className="w-full aspect-video max-h-[70vh] md:max-h-[75vh] overflow-hidden rounded-2xl">
+                        <video
+                          src="/demo.mp4"
+                          autoPlay
+                          muted
+                          loop
+                          className="w-full h-full object-contain"
+                          playsInline
+                        />
+                      </div>
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-zinc-950/80 to-transparent pointer-events-none" aria-hidden />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
   )
